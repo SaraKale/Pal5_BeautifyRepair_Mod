@@ -1,0 +1,33 @@
+关于.NET Framework版本选择
+
+官方页面系统要求：https://learn.microsoft.com/zh-cn/dotnet/framework/get-started/system-requirements
+Net运行时下载：https://dotnet.microsoft.com/zh-cn/download
+
+Windows XP SP3：
+自带：NET Framework 1.1 SP1
+最高支持：.NET Framework 4.0
+Windows Vista SP2：
+自带：.NET Framework 3.0
+最高支持：.NET Framework 4.6
+Windows 7 SP1：
+自带：.NET Framework 3.5.1 SP1
+最高支持：.NET Framework 4.8
+Windows 8.1：
+自带：.NET Framework 4.5.1 
+最高支持：.NET Framework 4.8
+Windows 10：
+自带：.NET Framework 4.6
+最高支持：最新版
+Windows 11：
+自带：.NET Framework 4.8
+最高支持：最新版
+
+————————————————————
+
+总结：
+Windows XP SP3/Windows Vista SP2：.NET Framework 4.0
+Windows 7 SP1/Windows 8.1/Windows 10/Windows 11：.NET Framework 4.7.2
+
+如果发现无法安装，提示可能被禁用，就去把系统更新开启，也可以用Windows Update Blocker重新开启，安装完后再关闭系统更新即可。
+
+由于仙剑五简体版和繁体版都已经不再支持XP和Vista系统，官方要求已变成Win 7/8/10了，但繁体版操作系统仍支持Windows Vista，未来可能会放弃发布.NET Framework 4.0版本。steam将在2024年1月1日起，停止对Win7/8/8.1 系统的支持。在该日期后，Steam客户端将无法在上述版本的Windows系统上运行。其他平台不受影响。

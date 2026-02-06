@@ -1,0 +1,645 @@
+仙五修改相关：
+
+仙五引擎是Renderware 3.7
+编程语言：Microsoft Visual C++ v.14.10 - 2017 (E8)
+
+参考资料：
+【图片】五前修改入门教程【仙五前修改吧】_百度贴吧
+https://tieba.baidu.com/p/3395904298
+【资料贴】五前和小五数据修改的一些帮助文字【仙剑五外传】_百度贴吧
+https://tieba.baidu.com/p/2164460785
+UI修改帮助【仙五前修改吧】_百度贴吧
+https://tieba.baidu.com/p/3780775275
+脚本的一些说明（草稿）【仙五前修改吧】_百度贴吧
+https://tieba.baidu.com/p/3597218480
+有关于主程序和脚本的交互【仙五前修改吧】_百度贴吧
+https://tieba.baidu.com/p/4844414507
+
+====================================
+
+1、战斗UI界面隐藏
+
+..\Config\Data\flash.ini
+可修改战斗胜利、地名显示、状态标志等
+
+..\UI\BattleWinDlg1440.xml
+..\UI\BattleWinDlg1280.xml
+战斗胜利的脚本文件，这两个是不同分辨率，如需要隐藏界面，需要把Width、Height、NormalPic、MouseDownPic、DisablePicde的值全为空。
+注意xml不能写<!--xxx-->注释，任何编码均不支持，可能版本比较旧，写注释会闪退。
+
+..\Texture\UI\UIP5\jnbj@.dds
+..\Texture\UI\UIP5\shuzi@.dds
+这两个贴图是把伤害数字透明化，不显示伤害数字
+
+..\Texture\Effect\BXB
+一些状态标志显示，修改了flash.ini但发现游戏仍有状态标志残留，需要把贴图也透明化
+
+====================================
+
+2、配音修复
+
+[补丁] 仙剑奇侠传5本传部分配音修复补丁
+https://bbs.3dmgame.com/thread-6192838-1-1.html
+by xiaoxulife3
+修复部分角色音量过小问题，如欧阳倩对白声音过小，还有祭都龙幽修复等
+
+(1) 冰麟、穹武配音增加回声混响效果，冰麟53608~53673.wav，穹武54912~57193.wav
+(2) 纠正一贫两句配音颠倒错误58299.wav、58300.wav
+(3) 打败魔魈后与雨柔下山途中个别情感互动对白。51720。wav 51721.wav
+(4) 补上DLC暮雨今夕雨柔的语音“云凡”73278.wav
+(5) 仙五语音有太多爆麦问题，要修复需要用Audacity排查失真，然后用iZotope RX 10去修复。
+(6) 欧阳倩语音音量过小
+
+配音补完计划：
+利用VITS情感控制语音合成制作DLC配音、支线配音等。
+https://github.com/innnky/emotional-vits
+
+====================================
+
+3、字体修改，对话框字号调整
+
+..\Config\Data\fontinfo.ini
+修改字体名称即可，推荐华文楷体加粗或资源圆体
+
+免费字体下载：https://www.maoken.com/all-fonts-imgs
+注意：
+有些字体不受支持，如发现游戏内没有显示文字或显示不全，更换别的字体即可。fontinfo.ini配置也跟编码有关，中文字体要用GB2312，其他字体换成UTF-8。推荐方法是复制文件的时候重命名英文名称文件，在Ini配置编辑Name值，就能识别字体了。
+
+..\UI\AskBox.xml
+..\UI\Popo.xml
+..\UI\PopoChoose.xml
+..\UI\MessageBox.xml
+..\UI\MessageOKBox.xml
+修改泡泡对话框、消息框的字号
+
+PopoChoose.xml修改PicType="0"值为1能解锁文字宽高
+修改后如果有错位需要再重启游戏或者修改字体文件
+
+对话选项框数值判断：
+最多4个选项，选择框内容都在：Config\Data\scriptlist.ini
+蜀山书房有超过5个选项，小蛮DLC有6个选项：
+图片位置：UI\UIP5\PopoChose3@.dds
+写入uvlist.tb文件
+最长文字：用红色的火焰点燃它
+
+默认数值 小号 18
+CapFontSize="18" 控件1179 Width="230" Height="500"
+中号 28
+CapFontSize="28" 控件22001 Width="275" Height="500"
+大号 38
+CapFontSize="38" 控件22002 Width="360" Height="500"
+特大号 48
+CapFontSize="48" 控件22003 Width="450" Height="600"
+
+BUG：和小幸姐的仙五修改器电影字幕功能会有冲突，不过也可以在修改器调整，问题不大。
+
+----------------------------------------------
+
+剧情消息框数值：
+图片位置：UI\UIP5\zdpt@.dds 左下角
+修改后的图片位置：UI\UIP5\MessageBox@.dds
+ui.Message(58146) --姜云凡将逆天阵前后发生的事告诉了姜世离
+
+默认数值 小号 18
+CapFontSize="18" 控件1186 Width="198" Height="66"
+
+中号 28
+MessageBox.xml
+CapFontSize="28" 控件22004 Left="15" Top="18" Width="248" Height="100"
+MessageOKBox.xml
+CapFontSize="28" 控件22004 Left="10" Top="14" Width="281" Height="55"
+列1：0.027    列2：0.436
+行1：0.031    行2：0.263
+
+大号 38
+MessageBox.xml
+CapFontSize="38" 控件22005 Left="20" Top="11" Width="285" Height="200"
+MessageOKBox.xml
+CapFontSize="38" 控件22005 Left="18" Top="14" Width="281" Height="285"
+列1：0.029    列2：0.501
+行1：0.271    行2：0.604
+
+特大号 48
+CapFontSize="48" 控件22005 
+跟38号数值一样
+
+----------------------------------------------
+
+保存读取游戏/返回界面/退出游戏/御剑飞行提示框：
+贴图位置：UI\UIP5\tspt@.dds
+保存游戏（橙色框）：UI\UIP5\zdpt@.dds
+读取游戏（蓝色框）：UI\UIP5\zdpt@.dds
+脚本：UI\AskBox.xml
+
+确认/取消按钮：UI\UIP5\Loadgame2@.dds
+
+默认数值 小号 18
+CapFontSize="24" 控件2541 Width="88" Height="36"
+
+中号 28
+CapFontSize="28" 控件22049 Width="88" Height="36"
+列1：0.032    列2：0.507
+行1：0.615    行2：0.942
+
+大号 38
+文字：CapFontSize="38" 控件22049 Left="38" Top="40" Width="250" Height="80"
+确定：Left="30" Top="135" Width="86" Height="36"
+取消：Left="175" Top="135" Width="88" Height="36"
+
+特大号 48
+文字：CapFontSize="45" 控件22049 Left="28" Top="0" Width="280" Height="150"
+确定：Left="30" Top="149" Width="86" Height="36"
+取消：Left="175" Top="149" Width="88" Height="36"
+
+----------------------------------------------
+
+对话框位置修改：
+
+1、使用XML属性：在XML文件中，您可以为UI控件添加属性，以实现margin和padding效果。例如，在下面的示例中，我们为一个窗口添加了margin和padding属性：
+
+<Window Name="MyWindow" X="100" Y="100" Width="1920" Height="1080" BackgroundColor="#000000" Margin="20 40 20 40" Padding="10 10 10 10">
+    <!-- 在此处添加控件 -->
+</Window>
+
+在上述代码中，我们使用Margin属性设置窗口的外边距，在Padding属性中设置内边距。具体地，Margin属性的四个值分别表示上、右、下、左方向上的外边距大小；而Padding属性的四个值分别表示上、右、下、左方向上的内边距大小。
+
+2、使用Lua脚本：在RenderWare中，您还可以使用Lua等脚本语言编写代码，以实现margin和padding效果。例如，在下面的示例中，我们使用Lua脚本为一个按钮添加了外边距和内边距：
+local button = CreateButton("MyButton", "Click Me")
+button.x = 100
+button.y = 100
+button.width = 200
+button.height = 50
+button.margin = {top = 10, right = 20, bottom = 10, left = 20}
+button.padding = {top = 5, right = 10, bottom = 5, left = 10}
+
+在上述代码中，我们通过设置button.margin和button.padding属性，为一个名为"MyButton"的按钮添加了外边距和内边距。
+需要注意的是，以上方法仅适用于某些特定的场景和框架，并且具体实现方式可能因开发需求和框架而异。
+
+在RenderWare3D游戏引擎中，Plane是一个基本的图形对象，它通常用于创建平面模型。然而，Plane本身并不是一个UI控件，因此它并不支持像margin和padding这样的布局属性。
+如果您需要在RenderWare游戏中实现UI布局效果，可以考虑使用其他类型的UI控件，如Window、Label、Button等，并为它们设置margin和padding属性。在XML文件中，可以通过添加Margin和Padding属性来设置UI控件的外边距和内边距。例如，在下面的示例中，我们为一个窗口添加了margin和padding属性：
+<Window Name="MyWindow" X="100" Y="100" Width="400" Height="300" BackgroundColor="#000000" Margin="20 40 20 40" Padding="10 10 10 10">
+    <Label Name="MyLabel" Text="Hello, World!" X="50" Y="50" Width="200" Height="50" FontSize="24" BackgroundColor="#FFFFFF" Margin="10 10 10 10" Padding="5 5 5 5"/>
+    <Button Name="MyButton" Text="OK" X="100" Y="150" Width="100" Height="50" BackgroundColor="#FFFFFF" Margin="10 10 10 10" Padding="5 5 5 5"/>
+</Window>
+在上述代码中，我们使用Margin属性设置窗口和标签的外边距，在Padding属性中设置标签和按钮的内边距。具体地，Margin属性的四个值分别表示上、右、下、左方向上的外边距大小；而Padding属性的四个值分别表示上、右、下、左方向上的内边距大小。
+需要注意的是，RenderWare游戏引擎是由开发者自行构建的，因此具体的UI控件和属性可能会因项目和框架而异
+
+------------------------------------------------------
+
+PopoChoose.xml文件下的解释：
+
+<?xml version="1.0" ?>
+<Head>
+    <Plane ID="0" Left="565" Top="396" Width="210" Height="500" BorderType="5" NormalBColor="-2698290" MouseInBColor="-2698290" MouseDownBColor="-2698290" DisableBColor="-2698290" NormalPic="1179" MouseOnPic="1179" MouseDownPic="1179" DisablePic="1179" PicType="1" Enabled="1" Type="0">
+        <ListBox ID="0" Left="17" Top="14" Width="230" Height="500" BorderType="5" NormalBColor="-2698290" MouseInBColor="-2698290" MouseDownBColor="-16777216" DisableBColor="-16777216" PicType="1" Enabled="1" CapFontSize="28" CapFontType="2"  NormalCapFontFColor="-1" NormalCapFontBColor="-16777216" MouseInCapFontFColor="-9967251" MouseDownCapFontFColor="-9967251" DisableCapFontFColor="-1" Type="10" NorBColor="0" InBColor="-16776961" DownBColor="-65536" DisBColor="-2698290"  MouseDownSound="1002" ShowLineHint="1" ShowPic="5" MaxRow="256" Space="8" Index="1" MultiLine="1" ALignH="1" ALignV="1" CapText="仙剑奇侠传五仙剑奇侠传五仙剑奇侠传五仙剑奇侠传五" />
+    </Plane>
+</Head>
+
+ChatGPT给的解答：
+这些数值是XML标记语言的属性值，它们描述了游戏中对话框的位置和其他属性。
+具体而言，这段XML代码定义了一个名为“Plane”的对象，它包含一个名为“ListBox”的子对象。该Plane对象的左侧边距（Left）是565，顶部边距（Top）是396，宽度为210，高度为300，边框类型为5，正常背景色为-2698290（颜色值），鼠标进入时背景色不变，鼠标按下时背景色不变，禁用时背景色不变。Plane对象的正常图片（NormalPic）是1179，鼠标移动到上面时图片不变，鼠标按下时图片不变，禁用时图片不变，图片类型为1，启用（Enabled）状态为1。
+ListBox对象的左侧边距是17，顶部边距是14，宽度为230，高度为300，边框类型为5，正常背景色为-2698290，鼠标进入时背景色为-2698290，鼠标按下时背景色为-16777216（黑色），禁用时背景色为-16777216，图片类型为1，启用状态为1，标题字体大小为28，字体类型为2，正常标题字体颜色为-1（黑色），正常标题字体背景色为-16777216（黑色），鼠标进入时标题字体前景色为-9967251，鼠标按下时标题字体前景色为-9967251，禁用时标题字体前景色为-1，类型为10，正常背景色为0，鼠标进入时背景色为-16776961，鼠标按下时背景色为-65536（红色），禁用时背景色为-2698290，鼠标按下时发出的声音是1002，显示行提示为1，显示图片为5，最大行数为256，间距为8，索引为1，允许多行，水平对齐方式为1（左对齐），垂直对齐方式为1（上对齐），标题文本为“仙剑奇侠传五仙剑奇侠传五仙剑奇侠传五仙剑奇侠传五”。
+如果修改Left和Top属性没有效果，则可能需要查看引擎的其他代码来确定如何修改对话框的位置。可能需要了解更多的渲染引擎和游戏开发的知识。
+
+------------------------------------
+
+Scipt下的代码：
+
+ui.PopoChoose(1000,8000,20005,3,1001,1002,1004)
+1000 = 问题字符
+8000 = 旗标
+20005 = 调用脚本tjz_shop5 对应Config\Data\scriptlist.ini
+3 = 选项数
+1001 = 第一个选项
+1002 = 第二个选项
+1004 = 第三个选项
+
+蜀山天书有超过5个选项，小蛮DLC有6个选项：
+ui.PopoChoose(question,22084,50514,6,44101,44105,44106,44102,44103,44104)
+
+global.BeginScene(51) --开始绘制一个场景,参数51可能代表场景的标识符或其他属性。
+
+====================================
+
+4、MOD相关
+
+..\script
+脚本修改，还原部分被弃用的情节，复制仙剑五怀旧版Mod1.06c的script文件
+
+隐藏帮助图片和一些泡泡信息框：
+flag.SetValue(10704,1)--学会合击技能"天剑"
+ui.Message(50074)--获得：雪石路地图
+ui.Message(55596)--将事情的经过告诉一贫与玉书
+map.CreateNameSE(2314)--显示地名
+ui.ShowHelpDlg(4506)--合成系统开启
+ui.ShowHelpDlg(4501)--封印系统开启
+ui.ShowHelpDlg(4502)--合击技帮助图片
+ui.ShowHelpDlg(4504)--棋盘帮助图片
+
+一、剧情类脚本改动/新增：
+1、乱石岗雨柔、龙幽剧情可全部触发了。皇甫卓招呼大家休息以后，会首先自动进入雨柔剧情，结束后再自动进入龙幽剧情。
+2 、云凡和雨柔苍木山再次相会情节中，微调了第一阶段的背景音乐为逐渐淡出，不再戛然而止了。
+3 、无声的父爱情节修改为自动触发。当云凡和雨柔苍木山再次相会后，会自动触发无声的父爱，结束后再转到覆天顶。
+4、结局三段隐藏剧情，不再要求好感度了。不设置任何条件，草谷、小蛮、龙幽必定会在那里等你哦。
+5、恢复青木幻域上的npc。除了顶层楼梯口的那个会显著妨碍剧情时的运镜，所以没恢复。夜青木村现在变得很热闹，顶层篝火广场人也更多了。所有npc可正常触发被删节的对话，包括顶层，在羽裳有涯剧情结束后也可以与他们交谈，当然有一些也是本身就不能谈话的。
+6、恢复大部分主要的被弃用的情节。包括：
+（1）打败魔魈后与雨柔下山途中个别情感互动对白。
+（2）同上。下山途中，毒影窥视二人被云凡发现的情节。【演出有点奇怪，已删除】
+（3）人界山洞，小姜和小蛮救血手个别对白。
+（4）初遇龙幽，三人互动个别对白。
+（5）同上。龙幽打趣小蛮的情节。编排有轻微调整。
+（6）二十年前魔教总坛，魔君为血手疗伤，删节的部分对白。有配音。
+（7）二十年前一贫听到呼声有人求救，有配音。
+（8）回魂仙梦结束，回到现实后，补上雨柔的一句台词。有配音。
+（9）出蜀山禁洞后遭遇血手攻上蜀山，告知血手已经安葬毒影的对白。有配音。
+（10）逆天阵过后，小姜梦呓，眼前出现雨柔幻影的情节。有配音。
+
+======================================
+
+5、身体比例调整、贴图修改
+
+仙五：
+脚本
+..\Config\Data\cdata.xml
+..\Config\Data\msdata.xml
+..\Config\Data\npcdata.xml
+贴图
+..\Texture\NpcP5
+
+仙五前传DLC梦华幻斗：
+脚本
+..\Config\Data\msdata.xml
+..\Config\Data\msdata_easy.xml
+..\Config\Data\msdata_hard.xml
+..\Config\Data\npcdata.xml
+贴图
+..\Texture\NpcP5\DLC\JYF
+..\Texture\NpcP5\DLC\tangyoyo
+..\Texture\NpcP5\DLC\xiaoman
+..\Texture\NpcP5\longU
+
+修改各主角身材比例的x、y、z轴缩放
+
+姜云凡 x缩放="99" z缩放="98" y缩放="100"
+唐雨柔 x缩放="103" z缩放="103" y缩放="97"
+龙幽 x缩放="100" z缩放="101" y缩放="99"
+小蛮 x缩放="100" z缩放="100" y缩放="100"
+
+Texture文件夹下修改各角色肤色调整
+
+DDS贴图修改：
+Photoshop软件提前安装DDS插件，如IntelTextureWorks、NvidiaTextureTools、AdobeDDS等。装到PS目录的plug-ins目录即可。
+导入图片时一定要带有alpha通道，不然无法存透明的，alpha通道画黑色就是透明的，画白色是不透明，然后导出选择BC3（DXT5A）格式，因为程序透明算法问题只能保存最低透明度，然后记得勾上Premultiply预乘选项。
+别忘了备份贴图文件。
+注意新建贴图尺寸宽高必须是相同数值，否则uvlist无法正确读取图片，如：512x512px，1024x1024px
+
+四人主角里面还有废弃文件，如tangyoyo/tyrtest.dff，想要查看需要把整个文件夹里的ddf和anm的名称全部替换，现在只能当作欣赏用了。
+光照有问题，可能要修改Shader
+
+相关帖子：
+唐雨柔模型调整：https://tieba.baidu.com/p/1740608971?fid=2284
+
+===============================
+
+6、剧情跳过功能
+		
+global.EnableSkipDialog(0) --对话不允许跳过
+global.EnableSkipDialog(1) --对话允许跳过
+
+===============================
+
+camera.ChangeCameraStatic(3424,953,3269,3389,929,3360) 
+这句代码是一个相机函数的调用，其含义是将当前相机切换为一个静态相机。具体来说，该函数的参数为：
+3424、953、3269：相机的位置坐标（x、y、z）
+3389、929、3360：相机的目标坐标（x、y、z）
+该函数的作用是将相机置于指定的位置和角度，以便显示场景中的特定区域或物体。需要注意的是，该函数的实现方式可能因游戏引擎或框架而异，因此具体实现方式可能会略有不同。
+
+ui.Dialog(80015,103,0,51,0,0) 
+这句代码是一个UI函数的调用，其含义是弹出一个对话框（dialog box），并显示指定ID的文本内容。
+具体来说，该函数的参数为：
+80015：对话框中要显示的文本内容的ID
+103：对话框的宽度
+0：对话框的高度（0表示自动适应文本内容的高度）
+51：对话框的背景图片ID
+0：对话框的选项数量（0表示没有选项）
+0：对话框的选项ID（在没有选项时，该参数可以省略）
+其中，文本ID通常是从游戏资源文件中加载的一个字符串ID。函数会根据该ID从资源文件中获取相应的文本内容，并将其显示在对话框中。
+需要注意的是，该函数的实现方式可能因游戏引擎或框架而异，因此具体实现方式可能会略有不同。
+
+===============================
+
+问：renderware引擎做的游戏如何调出控制台呢？
+
+答：RenderWare引擎本身并没有内置控制台，但是游戏开发者可以在游戏中添加控制台功能。在控制台中，玩家可以输入命令来改变游戏状态或执行其他操作。通常，控制台可以通过按下特定的键或组合键来调出。
+由于每个游戏的实现方式不同，所以如何调出控制台也会因游戏而异。以下是一些常见的方法：
+按下波浪线(~)键或TAB键。这是许多PC游戏中调出控制台的常见方法。
+按下Ctrl + Shift + C。这是一些模拟游戏和策略游戏中常用的方法。
+在游戏选项中启用控制台，并指定一个键来调出。有些游戏会提供这个选项，您可以在游戏设置中查找。
+如果您仍然无法找到如何调出控制台，建议查看游戏的文档或寻求相关的游戏论坛或社区的帮助。
+
+=================================
+
+如何查找对应图片控件编号：
+在游戏目录Texture/UI文件夹下，找到需要的图片后，打开uvlist修改器，按Ctrl+F查找文件名，就会搜到图片编号了，点击右边“获取矩形”看看是否是需要的控件，如果不是就继续查找，直到找到需要的图片为止。
+知道编号后，就去打开UI/BattleDlg1440.xml文件夹，搜索编号，就可以删掉宽和高了，还有pic控件编号也去掉。但是不能给xml写注释，否则会闪退……
+
+==============================
+
+Flash参数：
+EX_DLCJ_shi1$10645$4$10646;64;512;-16381;1;100;0;100;100;(redMultiplier=0, greenMultiplier=0, blueMultiplier=0, alphaMultiplier=1, redOffset=8, greenOffset=0, blueOffset=0, alphaOffset=0)
+206.9
+-305.1
+520.1
+456.1
+
+这段Flash代码是用于控制一个显示对象（display object）的运动和颜色的。具体来说，该代码包含两个部分，每个部分都由多个参数组成。
+第一部分的参数为：
+EX_DLCJ_shi1$10645$4$10646：显示对象的名称
+64：显示对象在x轴方向上的缩放比例
+512：显示对象在y轴方向上的缩放比例
+-16381：显示对象在z轴方向上的缩放比例
+1：显示对象的旋转角度
+100：显示对象的透明度
+0：显示对象的亮度
+100：显示对象的对比度
+100：显示对象的饱和度
+(redMultiplier=0, greenMultiplier=0, blueMultiplier=0, alphaMultiplier=1, redOffset=8, greenOffset=0, blueOffset=0, alphaOffset=0)：显示对象的颜色调整参数
+
+其中，显示对象的名称和颜色调整参数会因游戏或应用而异，其余参数则可以根据需要进行调整。
+第二部分的参数与第一部分基本相同，不同之处在于它将显示对象的透明度从100增加到了1500。这意味着该显示对象将变得更加不透明（即更加鲜明）。
+需要注意的是，该Flash代码片段的实现方式可能因应用程序而异，因此具体实现方式可能会略有不同
+
+==============================
+
+仙五文件结构：
+Config---------程序设定
+flash----------动画特效数据
+Map------------地图场景一些数据
+Model----------模型相关
+Mouse----------鼠标指针
+Movie----------动画CG
+mssd-----------所有剧情相关文字
+Music----------音乐
+script---------程序脚本
+Shader---------着色数据
+Sound----------音效、特效声音等
+Texture--------各类贴图，主菜单、战斗UI、对话框、人物头像等
+UI-------------UI各类数据
+
+------------------------------
+
+UI文件夹结构说明：
+
+AskBox：保存读取游戏/返回界面/退出游戏消息框，“你确定要读取吗？"；”确定“；”取消“。比如退出游戏的时候就会询问确认。
+BattleDlg：战斗界面的各种UI，包括人物头像及其数值，伤害统计，操作指令盘等等。
+BattleWinDlg：战斗胜利的界面，谁谁获得多少经验什么的
+ChoosePlayer：重新挑战选人界面
+CountDlg：扣血、加血显示数字
+DialogBox：剧情对话框。比如：”姜承：晚上出来的是蛾子。“
+DialogChoose：剧情对话框的选项。比如：”确定要进入DLC吗？ 嗯，我决定了。 / 不，我通关之后再进入。"
+DiaryDlg：系统菜单情报中的日志
+EquipDlg：系统菜单的装备界面
+FormulaDlg：系统菜单的合成界面
+Help：帮助界面的图片，参见data\help.xml
+HelpDlg：系统菜单情报中的帮助
+InfomationDlg：系统菜单的情报-图标日志、敌人、符
+ItemDlg：系统菜单的道具
+Login：登陆界面，需要输入用户名和密码的，没啥用。
+MagicDlg：系统菜单的技能
+MainFrame：系统菜单图标
+MessageBox：剧情消息框。例如：”姜云凡升了3级“
+MessageOKBox：消息确认框，涉及到宝箱物品、角色加入队伍的消息框，比如“获得金疮药X2”
+miniMap：小地图界面，可以显示玩家当前位置的地图
+MonsterInfoDlg：系统菜单情报中的敌人（怪物）
+OptionDlg：系统菜单的系统设定
+PlayerInfoDlg：系统菜单中的状态
+Popo：NPC对话泡泡框
+PopoChoose：泡泡对话选项框。例如： ”要买什么？ 买/卖“
+RE：重新挑战界面
+ShopDlg：商店购买界面
+ShowPicDlg：蜀山除妖任务怪物说明图片
+SlotDlg：贴符界面
+SmallRenderDlg：未知，小型渲染器
+SNCDlg：九黎祠拼图小游戏
+StartMenuDlg：游戏标题界面，就是有“新的开始/旅途再续”的那个界面
+SymbolInfoDlg：情报界面-符咒
+teamDlg：系统菜单中的队列
+TimerDlg：倒计时界面
+WorldMap：飞行大地图
+
+----------------------------
+
+UI的XML说明：
+
+ListBox ID="0"：列表框
+关于Left和Top属性，它们定义控件在父容器（或屏幕）中的相对位置。例如：
+Left="17" 和 Top="14" 意味着控件的左上角位于距离父容器左侧和顶部分别 17 像素和 14 像素的位置。
+Width="121" ：控件的宽度
+Height="121"：控件的高度
+HintText="快捷键E"：这里是按钮，"快捷键Y"就是当鼠标悬停在控件上时显示的提示文本的内容
+HintFontSize="14"：提示的文字大小
+HintNormalBColor="-4456517" HintNormalFColor="-8388608" 分别是提示的背景颜色和文字颜色。BColor就是背景颜色(background)，FColor就是文字颜色(Font)，以RGBA存储，其中A是Alpha通道，为0表示透明，为FF表示不透明。
+后面加了MouseIn，MouseDown，Disable，意思是鼠标移动在区域内、鼠标按下和控件不可用的时候的情况，这里不是按钮，所以没什么区别。
+BColor 和 FColor 属性使用的是 RGB 颜色编码。RGBA是一种包含Alpha 通道（用于透明度）的RGB格式
+BorderType="5" ：控件边框类型，基本都是5。BorderType 属性定义控件的边框类型。在您提供的代码中，它设置为 5，但这并不是一个普遍的默认值。实际上，这个值在不同的GUI 工具包中可能具有不同的含义或被忽略。
+NormalBColor="-2698290"和后面的内容就是记录此控件的颜色、加载的图片。
+NorBColor、InBColor、DownBColor和DisBColor属性定义控件在不同状态下的背景颜色。例如，NorBColor 是在控件处于正常状态时显示的颜色，InBColor是在鼠标指针进入控件区域时显示的颜色，以此类推。
+NormalCapFontFColor、MouseInCapFontFColor 和 MouseDownCapFontFColor 属性定义不同状态下使用的控件标题（即ListBox的标签）的字体颜色。
+MouseInBColor="-1"：鼠标进入颜色
+MouseDownBColor="-1"：鼠标点击常规颜色
+DisableBColor="-1"：禁用状态颜色
+NorBColor="0"：标准颜色
+InBColor="-16776961"：向上颜色
+DownBColor="-65536"：向下颜色
+DisBColor="0"：取消颜色
+NormalCapFontFColor="-1" ：普通大写字体颜色，文字描边
+MouseInCapFontFColor="-9967251"：鼠标点击颜色，文字描边0.680
+MouseDownCapFontFColor="-9967251"：鼠标点击颜色，描边
+Enabled="1"：控件是否可用。可用是1，不可用是0
+CapFontSize="22"：字号大小
+CapFontType="2"：字体类型，对应Config\Data\fontinfo.ini
+DisableCapFontFColor="-1"：禁用大写字体
+ALignH="1"：属性定义控件的横向和纵向对齐方式。横向对齐分为左中右
+ALignV="1"：属性定义控件的横向和纵向对齐方式。纵向对齐分为上中下
+ALignH="1" 和 ALignV="1" 意味着控件的内容将在水平和垂直方向上都居中对齐。
+Type="10"：字的类型
+ShowPic="5"：显示图片类类型，属性定义是否在控件中显示图像
+PicType="0"：图片类型，0为不显示，1为显示。属性定义是否在控件中显示图像，并指定要使用的图像类型和文件。
+MouseDownSound="1002"：鼠标在控件处按下时发出的声音
+DownSound="1002"：鼠标在控件处按下时发出的声音
+ShowLineHint="1"：显示行提示
+MaxRow="256"：最大行，定义ListBox中的最大行数
+MultiLine="1"：行高，定义ListBox中的文本行数
+Space="8"：空格，定义ListBox中的行间距
+UseCtlText="1"：使用控制文本，属性指示是否使用控件自身的文本而不是从外部加载。如果设置为0，则控件将使用从外部加载的文本。
+Ignore="1"：不能点击文字选项
+CheckType="1"：点击类型，1为不点击
+Ignore和CheckType属性定义当单击ListBox中的文本项时是否应向应用程序发送通知。如果Ignore="1"和 CheckType="1"，则单击文本项时不会发送通知。
+<Scale x="1.0" y="1.0" z="1.0"/> 缩放参数
+
+滚动条（ScrollBar）：
+MidSize="30"：滑块的中间部分的长度（以像素为单位）和 Width值有关，如果要调整宽度需要MidSize和width数值都一样。
+SideSize="30"：滑块的两端部分的长度（以像素为单位），也就是拉长下箭头距离，数值越大就是缩短距离，越短是拉长距离。
+Max="31"：滚动条的最大值，也就是用户可以滚动到的最远位置。
+Value="13"：滚动条的当前值，即滑块的位置。它代表了用户当前所看到的视图在整个可滚动区域中的位置。
+PageSize="13"：表示一个页面的大小，也就是控件显示的一次性可见内容的大小。如果用户向上或向下滚动，每次滚动的距离将是PageSize的大小。
+LargeChange="13"：大滚动量（LargeChange），是指用户按下向上或向下箭头时，滚动框格移动的量。
+
+===============================
+
+data文件夹结构说明：
+
+一条标准的首饰数据就是这样的，从<row到/>，这里面的文字的顺序、空格都是不可改变和添加的，【编号】用于作为识别道具的ID是绝不能重复的， 无论是和武器。防具，还是道具。
+名称能显示最大7个汉字14字节，编辑名称请注意，图示ID为展示图片的ID，可以是任何有或者能找到代码的图片，图片填入后会自动适应，但是有的会比较违和。【角色】里面的数字是适用角色的ID之和。
+
+【accouterment.xml】首饰数据
+【cdata.xml】主角数据，控制比例缩放等
+【clothes.xml】衣服
+【compose.xml】合成系统
+【flash.ini】管理特效代码，可以让小五和五前对比确认保留技能特效~
+【fontinfo.ini】五个不同位置的文字，想替换字体的只需要把这个里面指定的文件名的ttf文件更换即可，或者更改字体名
+【G_textureConfig.ini】贴图设定
+【item.xml】道具数据
+【help.xml】游戏的帮助图片设定，小五里是没有的，最多增加8张~
+【journal.xml】掌管主线支线的信息，可以修改文字
+【level.xml】十大主角的升级信息，很好懂，信息顺序和Cdata的一致，可以任意修改，必须是整数值
+【map.xml】登陆的地图信息，注意后面的地图
+【MapInfo.ini】地图信息
+【msteam】是和msdata相辅相成的，编辑好的怪物都要在这里设置怪物的队伍，如果是小修改，也要记得处理现有的怪物组，避免有冲突和错误。
+【music.lst】用于登陆和赋予音乐编号代码，配合mapdata或者脚本使用。
+3,map\003.mp3
+[,]前面是赋予的代码，后面是游戏文件夹下→music（文件夹或者pkg文件）下面的路径，应该只支持标准的mp3和wav文件，这个有待测试
+【mweapon.xml】法宝数据
+【npcdata.xml】角色数据
+【ref.ini】持手武器
+【scriptlist.ini】这个是联系data与脚本的纽带。文件的前一段，有注释，大体说明了那些编号控制怎样的脚本。
+例如：
+[item]
+101=item001
+就是说，编号101的脚本，对应的是script\item下的item101.lua
+data里面不少文件都有类似 脚本ID= 或者 ai脚本ID= 这样的字眼，那里的ID就可以到scriptlist.ini这里面寻找。也就是说，有了这个文件，寻找、修改或者新增都非常方便~
+【shoes.xml】控制鞋子的属性，不能贴符
+【skill.xml】技能
+【sound.lst】与music类似，控制音效和配音文件数据
+【state.xml】相当于决定状态的名称标识的文件，不会影响本身编号对应的效果，可以随意增加空的编号作为自定义BUFF或者DEBUFF
+【str.xml】所有剧情文字
+【stringlist.ini】用来设置系统内气泡选择框的内容
+【stringList_sys.ini】同上，但是是系统用的
+【T_textureConfig.ini】贴图设定
+【weapon.xml】武器数据
+
+==============================
+
+MapInfo.ini的含义：
+
+ID=25：表示这个地图或区域的唯一ID号是25；
+X=2 和 Z=3：表示这个地图或区域的位置坐标是 (2, 3)；
+DesTxt=丹枫谷：表示这个地图或区域的中文名称是“丹枫谷”；
+Name=quanshuiyuantou1：表示这个地图或区域的英文名称是“quanshuiyuantou1”；
+MiniMapArray=5060,5061,5062,5063,5064,5065：表示这个地图或区域在小地图上显示的图标是一系列的图标编号，这些图标的编号分别是 5060、5061、5062、5063、5064 和 5065；
+minimapRot=90：表示这个地图或区域在小地图上显示的图标需要旋转90度；
+MidMapArray=6030,-0,1140,10240,11380：表示这个地图或区域在中型地图上显示的图标是一系列的图标编号，这些图标的编号分别是 6030、-0、1140、10240 和 11380；
+Reflection=0.5：表示这个地图或区域的反射值是0.5；
+UseFog=0：表示这个地图或区域不使用雾效果；
+scriptID=1119：表示这个地图或区域所使用的脚本ID号是1119；
+scatterExp=2：表示这个地图或区域的散射强度是2；
+Diffuse=1.2：表示这个地图或区域的漫反射光强度是1.2；
+HDRExp=0.08：表示这个地图或区域的HDR曝光值是0.08；
+HDRBright=0.3：表示这个地图或区域的HDR亮度是0.3；
+SkyRot=3：表示这个地图或区域的天空需要旋转3度；
+Ambient=0.9：表示这个地图或区域的环境光强度是0.9；
+mapFlag=12025：表示这个地图或区域的标记值是12025；
+MusicId=11：表示这个地图或区域所使用的背景音乐ID号是11；
+loadBackID=16：表示这个地图或区域的背景需要加载16号背景；
+nameSE=1690：表示这个地图或区域的名称需要使用1690号音效。
+
+==============================
+
+ref.ini
+
+//姜云凡 右腰(左手)
+ref_4=6,90.0,0.0,50.0,4.0,-3.5,-2
+
+这段代码是一个包含7个元素的列表，每个元素之间使用逗号分隔。根据代码的格式和元素的值，我们可以猜测这是一个游戏或应用程序中的某个对象或元素的属性或参数设置。
+具体来说，这个列表的含义是：
+ref_4：该元素的名称或标识符。
+6：一个整数值，表示该元素的类型或类别。
+90.0：一个浮点数值，表示该元素的旋转角度或方向。
+0.0：一个浮点数值，表示该元素的倾斜角度或方向。
+50.0：一个浮点数值，表示该元素的大小或长度。
+4.0,-3.5,-2：三个浮点数值，分别表示该元素在X、Y、Z轴上的位置或坐标。
+根据这些值，我们可以大致了解该元素在游戏或应用程序中的位置、大小、方向和类型等属性。然而，要更深入地理解这段代码，需要结合代码上下文和应用程序的具体情况来分析。
+
+=============================
+
+Shader文件夹：
+
+在RenderWare中，.psh和.vsh文件是shader程序的源代码文件，分别对应pixel shader和vertex shader。
+Pixel shader是一种计算每个像素最终颜色的程序，它对每个像素执行一次，并使用纹理、光照、深度等信息来计算出像素最终的颜色。.psh文件就是 pixel shader 程序的源代码文件，通常使用汇编语言或高级语言编写。
+Vertex shader 是一种计算每个顶点属性的程序，它对每个顶点执行一次，并将顶点从对象空间变换到世界空间或屏幕空间，以及应用纹理坐标等信息。.vsh文件就是 vertex shader 程序的源代码文件，通常使用汇编语言或高级语言编写。
+使用 shader 可以让游戏中的模型和场景变得更加真实和精细，同时也可以增强游戏的性能和效率。在RenderWare中，开发人员可以编写自己的 shader程序，并将它们集成到游戏中，以实现更高的图形质量和更好的性能表现。
+
+可以通过一些专门的工具来修改shader程序，而不需要直接编辑汇编代码。在RenderWare中，有一些第三方工具可以帮助开发人员编辑shader 程序，例如RenderWare Shader Studio（RWSS和RenderDoc等。
+RenderWare Shader Studio是一个基于GUI的工具，可用于创建、编辑和调试RenderWare shader程序。该工具提供了许多预定义的shader 效果，用户可以从中选择，并可以轻松地进行参数设置。此外，RenderWare Shader Studio还支持将编写的shader程序保存为.psh或.vsh 文件。
+RenderDoc是一个基于帧捕获的图形调试工具，可以用于调试和分析游戏中的图形渲染过程。它可以捕获每一帧的渲染数据，并允许用户查看渲染状态、着色器程序和纹理等信息。用户可以在RenderDoc中编辑和调试shader程序，并直接将修改后的程序重新编译和应用到游戏中。
+总之，尽管不懂汇编，也可以通过使用这些工具来修改shader程序。但是需要注意的是，修改shader程序需要具备一定的编程和图形学基础知识，并且需要进行一定的测试和验证，以确保修改后的shader程序可以正常工作，并且没有负面影响。
+
+=================================
+
+G_textureConfig.ini文件作用：
+
+这个文件是一个纹理配置文件，用于指定游戏中的草地纹理的属性。具体来说，这个文件定义了一个名为"grassPack"的纹理包，并且设置了一些纹理的参数。
+其中，“TextureID”指定了纹理在游戏中的编号，"move"表示这个纹理是否需要移动，"UVCount"则指定了纹理的数量。
+接下来是4个不同的纹理（T1到T4），每个纹理都有自己的一些属性。例如，T1U1、T1V1、T1U2和T1V2指定了第一张纹理的左上角和右下角的纹理坐标，T1W和T1H则指定了纹理的宽度和高度。
+这个文件可能是用于Unity或其他类似的游戏引擎中指定纹理属性。
+
+=================================
+
+仙五游戏根目录下的作用：
+
+srh50.bin：可能是游戏数据文件，具体内容不清楚。
+starter.bin：可能是游戏启动器文件，用于启动游戏。
+story_opl.dia：可能是游戏故事背景、角色介绍等相关信息的文本文件。
+trace.txt：游戏运行时可能生成的日志文件，记录游戏运行过程中的信息和错误。
+vorbis_sub.sub：可能是游戏音频文件。
+w1n_000.nfs：可能是游戏数据文件，具体内容不清楚。
+wrk_sdl.bin：可能是游戏数据文件，具体内容不清楚。
+ALF.dll：可能是游戏运行所需的动态链接库文件。
+aliasdiffanhl3.bin：可能是游戏数据文件，具体内容不清楚。
+binkw32.dll：可能是游戏视频文件解码所需的动态链接库文件
+config.exe：这是一个配置工具，用于配置应用程序的设置。
+config.patch：可能是游戏更新所需的补丁文件。
+const_ovr.bin：可能是游戏数据文件，具体内容不清楚。
+coord_abstr5.hal：可能是游戏运行所需的头文件，用于编译游戏。
+cyc_nan.bik：可能是游戏视频文件。
+d3d9.dll：动态链接库文件，用于图形渲染。
+d3dx9_30.dll: 游戏运行所需的动态链接库文件，用于DirectX 9运行时。
+dest_fix2.bin：可能是游戏数据文件，具体内容不清楚。
+DFA.dll：可能是游戏运行所需的动态链接库文件。
+dfe：可能是游戏运行所需的脚本文件或可执行文件。
+dith_l3.bin：可能是游戏数据文件，具体内容不清楚。
+DLC1.bmp：魔灵幻象DLC图片
+DLC2.bmp：暮雨今夕DLC图片
+DLC3.bmp：前尘若梦DLC图片
+engined2.bin：可能是游戏引擎文件，用于游戏运行。
+f10.kea：可能是游戏数据文件，具体内容不清楚。
+gfx_hwdl1.dat：可能是游戏图形渲染所需的数据文件。
+jay_mix.bin：可能是游戏数据文件，具体内容不清楚。
+krn_snd.bin：可能是游戏音频文件。
+Layer06.Arch01：可能是游戏场景数据文件，具体内容不清楚。
+lght_jmp_mod.hal：一个Halo编辑器的光照模块文件。
+MapViewer.exp：MapViewer应用程序的导出函数列表。
+MapViewer.lib：MapViewer应用程序的链接库文件。
+mss32.dll：Miles Sound System 32-bit 动态链接库，提供了音频解码和播放功能。
+msvcr71.dll：Microsoft Visual C++运行时库文件
+msvcr120.dll：Microsoft Visual C++ 运行时库文件
+P5RRC.dll：暂时无法确定该文件的作用，可能是某个应用程序或游戏的一部分。
+Pal5.exe：可执行文件
+Pal5DLC.bin：DLC文件
+Pal5DLC.ini：DLC的配置文件
+patpon.pat：暂时无法确定该文件的作用，可能是某个应用程序或游戏的一部分。
+paul.dll： 暂时无法确定该文件的作用，可能是某个应用程序或游戏的一部分。
+RelLic.dll：暂时无法确定该文件的作用，可能是某个应用程序或游戏的一部分。
+res.pak：资源文件压缩包，可能包含应用程序或游戏的图形、音频、文本等资源。
+rldata.dll：暂时无法确定该文件的作用，可能是某个应用程序或游戏的一部分。
+ScriptHelper.log：某个应用程序或游戏的日志文件，记录了程序的执行信息和错误。

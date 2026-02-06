@@ -1,0 +1,203 @@
+原则上lua可以编写剧情跳过的代码，但是仙剑五可能没有加入相关的API，只有仙剑五前传有跳过剧情的功能，待未来有大神解决这个问题吧。
+
+=====================
+
+Script文件夹下的文件：
+ 
+attackbuff - 攻击增益
+battleend - 战斗结束
+battleevent - 战斗事件
+battlemap_jiantai - 战斗地图_剑台
+console.lua - 控制台.lua
+dianchi - 滇池
+diaorumojie - 掉入魔界
+dlc_jyf - DLC_姜云凡
+dlc_ly - DLC_龙幽
+dlc_tyr - DLC_唐雨柔
+dlc_xm - DLC_小蛮
+Dlc1NewGame.lua - DLC1新游戏.lua
+DLC2NewGame.lua - DLC2新游戏.lua
+DLC3JYFNewGame.lua - DLC3姜云凡新游戏.lua
+DLC3LYNewGame.lua - DLC3龙幽新游戏.lua
+DLC3TYRNewGame.lua - DLC3唐雨柔新游戏.lua
+DLC3XMNewGame.lua - DLC3小蛮新游戏.lua
+guanmuyuanye - 唐家镇夜晚
+item - 物品
+jiujiaomigong - 酒窖迷宫
+kaifeng - 开封
+kaifengshinei - 开封市内
+kuangfenghoushan - 狂风后山
+kuangfengshandong - 狂风山洞
+kuangfengshanlu - 狂风山路
+kuangfengzhai - 狂风寨
+kuangfengzhaishinei - 狂风寨室内
+lingbodongku - 凌波洞窟
+luanshigang - 乱石岗
+mainline - 主线
+mapchange - 地图变更
+midaochukou - 秘道出口
+mojiaomidao - 魔教密道
+mojiaozongtanhou02 - 魔教总坛后02
+mojiaozongtannow - 魔教总坛现代
+mojiaozongtanpast - 魔教总坛古代
+mojiaozongtanshinei - 魔教总坛室内
+mojiedidong - 魔界迷宫
+mojiefengxi1 - 魔界缝隙1
+mojiefengxi2 - 魔界缝隙2
+monsterai - 怪物AI
+NewGame.lua - 新游戏.lua
+nvwajitan - 女娲祭坛
+paintandmedicine - 诗词谜题？
+pilihuangyuan - 霹雳荒原
+prelogue.lua - 前言，游戏启动时的预处理 
+qingmucun - 青木村
+qingmucunshinei - 青木村室内
+qingmucunye - 青木村夜
+qingmurukou - 青木入口
+qipan - 棋盘
+quanshuishandong - 泉水山洞
+quanshuiyuantou - 泉水源头
+renjieshandong - 人界山洞
+rongdong - 溶洞
+roomchange - 房间变更
+shenjiangmijing - 神降秘境
+shenmulin - 神木林
+shennongci01 - 神农祠01
+shennongci02 - 神农祠02
+shennongci03 - 神农祠03
+shennongci04 - 神农祠04
+shujuan - 书卷
+shushan - 蜀山
+shushan_xuanguangdian - 蜀山璇光殿
+shushanposui - 蜀山破碎
+shushanqigong - 蜀山气功
+shushanshinei - 蜀山室内
+shushanye - 蜀山夜
+skill - 技能
+suoyaota - 锁妖塔
+tangfu - 唐府
+tangjiazhen - 唐家镇
+tangjiazhenshinei - 唐家镇室内
+wuyueshendian - 巫月神殿
+wuyueshendian_DLC - 巫月神殿_DLC
+wuyueshendianshinei - 巫月神殿室内
+xianzhulin - 仙竹林
+xuanguangdianandsanhuangtai - 璇光殿和三皇台
+xuechifeixu - 血池废墟
+xueshilu - 雪石路
+yechawangdu - 夜叉王都
+yechawangdushinei - 夜叉王都室内
+yingxiongshanzhuang - 折剑山庄
+yingxiongshanzhuangshinei - 折剑山庄室内
+
+========================
+
+剧情跳过功能
+	
+global.EnableSkipDialog(0) --对话不允许跳过
+global.EnableSkipDialog(1) --对话允许跳过
+
+========================
+
+代码1示例：
+
+ChatGPT解答:
+
+Renderware引擎自带的剧情跳过功能取决于游戏的设计和开发者的决定，因此不能确定Renderware引擎是否具有剧情跳过功能。
+要在Lua中实现剧情对话跳过功能，您可以使用Input函数监控玩家是否按下跳过键，并在检测到按下时调用跳过对话的代码。具体实现可能因游戏而异，但以下是一个简单的示例代码：
+
+local SKIP_KEY = input.KEY_SPACE -- 设置跳过键为空格键
+local SKIP_KEY = input.KEY_GRAVE -- 设置跳过键为~波浪键
+
+function update()
+    if input.IsKeyPressed(SKIP_KEY) then
+        -- 调用跳过对话的代码
+        skipDialog()
+    end
+end
+
+function skipDialog()
+    -- 在这里实现跳过对话的逻辑，例如直接关闭对话框或者跳过当前对话等等
+end
+
+至于您提到的EnableSkipDialog函数，这是一个自定义函数，具体含义可能因游戏而异。但根据函数名，它可能是用于启用或禁用游戏中的剧情跳过功能。在您提供的代码中，EnableSkipDialog(0)的参数为0，可能表示禁用跳过对话功能。
+
+=======================
+
+代码2示例：
+
+local SKIP_KEY = input.KEY_SPACE  -- 定义跳过对话所需按键
+
+-- 处理跳过对话的函数
+local function handleSkipDialogue()
+  if isKeyPressed(SKIP_KEY) then
+    -- 空格键被按下，跳过当前的对话
+    -- 在这里添加跳过对话的代码
+  end
+end
+
+-- 游戏主循环
+while true do
+  -- 处理游戏逻辑，包括对话框的显示等
+  -- ...
+
+  -- 处理跳过对话的逻辑
+  handleSkipDialogue()
+
+  -- 更新游戏界面
+  -- ...
+end
+
+在此示例中，我们定义了一个常量SKIP_KEY，它存储了跳过对话所需的按键。然后，我们定义了一个名为handleSkipDialogue的函数，该函数会检查SKIP_KEY是否被按下。如果是，就可以在函数中添加相应的代码，以跳过当前的对话。
+在游戏的主循环中，我们首先处理游戏逻辑，包括对话框的显示等。然后，我们调用handleSkipDialogue函数来处理跳过对话的逻辑。最后，我们更新游戏界面。
+
+==========================
+
+RenderWare引擎本身不提供剧情对话跳过功能，但是这可以通过编写脚本来实现。在Lua中，可以使用以下步骤来编写剧情对话跳过功能：
+创建一个跳过对话的按键触发事件，比如按下“ESC”键。
+在游戏循环（game loop）中检测该按键是否被按下。
+如果按键被按下，则将游戏状态设置为“跳过对话”。
+在剧情对话的渲染代码中添加逻辑，如果游戏状态为“跳过对话”，则直接跳过当前对话，并继续执行后续的游戏逻辑。
+当剧情对话结束后，将游戏状态设置回正常状态。
+具体实现方法取决于游戏的架构和代码组织方式，但以上步骤应该是通用的。
+以下是一个简单的示例代码，用于演示如何在Lua中实现剧情对话跳过功能：
+
+-- 定义跳过对话的按键
+local skipKey = KEY_GRAVE
+
+-- 初始化游戏状态
+local gameStatus = "normal"
+
+-- 游戏循环
+while true do
+  -- 检测跳过对话的按键是否被按下
+  if isKeyDown(skipKey) then
+    gameStatus = "skip_dialogue"
+  end
+  
+   -- 渲染剧情对话
+  if currentScene == "dialogue" then
+    if gameStatus == "skip_dialogue" then
+      -- 跳过当前对话
+      nextDialogue()
+      gameStatus = "normal"
+    else
+       -- 渲染当前对话
+      renderDialogue()
+    end
+  end
+  
+  -- 继续执行游戏逻辑
+  updateGameLogic()
+end
+
+请注意，以上示例代码仅为演示如何实现剧情对话跳过功能，并没有考虑游戏的具体架构和代码组织方式。实际上线的游戏需要根据实际情况进行修改和优化。
+
+==============================
+
+问：lua如果增加跳过对话功能，是否依赖dll库？你知道renderware引擎做的游戏能跳过剧情对话吗？
+
+答：在Lua中增加跳过对话功能并不依赖于DLL库。实现跳过对话功能的方式取决于游戏的具体实现，可能需要对游戏的代码进行修改，例如添加一个按键检测，当玩家按下该键时，跳过当前的对话文本。这可以在游戏的主循环中实现。
+至于RenderWare引擎，它本身不提供跳过剧情对话的功能。实现该功能需要根据游戏的具体实现进行修改，同样需要添加按键检测等代码。
+
+

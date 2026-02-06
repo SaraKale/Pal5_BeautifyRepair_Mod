@@ -1,0 +1,57 @@
+﻿<Window x:Class="copybar.Pal5Mod.UI.Copybar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:copybar.Pal5Mod.UI"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+        mc:Ignorable="d"
+        Title="文件复制中..." Height="300" Width="380" ResizeMode="CanMinimize">
+    <Grid Background="#FFF7F9F9" Height="396" VerticalAlignment="Top">
+
+        <TextBlock HorizontalAlignment="Left" Margin="43,15,0,0" TextWrapping="Wrap" 
+                   Text="文件正在复制中，请勿关闭当前窗口！" 
+                   VerticalAlignment="Top" Height="49" Width="327" FontSize="18"/>
+        <TextBlock HorizontalAlignment="Left" Margin="19,54,0,0" TextWrapping="Wrap" 
+                   Text="蜀山快递人员正在为您飞速工作中…" 
+                   VerticalAlignment="Top" Height="49" Width="328" 
+                   FontSize="15" TextAlignment="Center"/>
+
+        <!-- GIF动图播放 
+            WPF不支持直接使用image来存放GIF图，需要用插件或者后台使用MediaElement事件
+        
+            NuGet包搜索：WpfAnimatedGif 或 XamlAnimatedGif 安装
+            WpfAnimatedGif很久不更新了，不推荐使用，推荐用XamlAnimatedGif，较稳定。
+        
+            在XAML文件中添加头文件XamlAnimatedGif的头文件命令：
+            xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+            Grid中间添加：
+            <Image gif:AnimationBehavior.SourceUri="图片的路径"/>    
+        
+            xaml设计界面看起来没有加载图片，实际上已经加载成功了，通过调试或生成项目就会出现图片。
+         -->
+        
+        <!--
+        <Image gif:AnimationBehavior.SourceUri="loading_yunfan.gif" 
+               gif:AnimationBehavior.RepeatBehavior="Forever" Margin="97,84,0,0" 
+               HorizontalAlignment="Left" VerticalAlignment="Top" 
+               Width="200" Height="100"/>
+        -->
+        
+        <!-- 进度条 
+        进度条播放进度循环：IsIndeterminate="True" -->
+        <ProgressBar x:Name="copyBarWait"
+                     Height="18" Margin="40,198,40,180" 
+                     Background="#FFF1AAAA" Foreground="#FF863232" BorderBrush="#FFA94C6E"
+                     Minimum="0" Maximum="100"/>
+        <!-- 进度条百分比 -->
+        <TextBlock x:Name="FilePercentage" Text="%" FontSize="16"
+                   VerticalAlignment="Top" HorizontalAlignment="Left" 
+                   Margin="149,229,0,0" RenderTransformOrigin="1.069,1.247" Height="27" Width="90" />
+
+        <!--<TextBlock x:Name="remainingTime" Text="剩余时间：" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,60,0,0" />-->
+        <!-- <Button x:Name="cancel" Content="取消" HorizontalAlignment="Center" Margin="0,249,0,0"  VerticalAlignment="Top" Height="26" Width="94" Click="cancel_Click"/> -->
+
+    </Grid>
+</Window>

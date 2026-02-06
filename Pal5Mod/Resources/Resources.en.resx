@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Window_Title" xml:space="preserve">
+    <value>Pal5 BeautifyRepair Mod</value>
+  </data>
+  <data name="Menu_ProjectRepo" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="Menu_Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="Menu_Helpdoc" xml:space="preserve">
+    <value>Help Manual</value>
+  </data>
+  <data name="Menu_About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Menu_Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Lang_SC" xml:space="preserve">
+    <value>Simplified Chinese</value>
+  </data>
+  <data name="Lang_TC" xml:space="preserve">
+    <value>Traditional Chinese</value>
+  </data>
+  <data name="Lang_EN" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Prompt_SelectGameThenFunction" xml:space="preserve">
+    <value>Please select the game path first, then select the function</value>
+  </data>
+  <data name="Tab_SelectGamePath" xml:space="preserve">
+    <value>Select Game Path</value>
+  </data>
+  <data name="Button_Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="Label_Pal5" xml:space="preserve">
+    <value>Paladin Five</value>
+  </data>
+  <data name="Placeholder_SelectRoot" xml:space="preserve">
+    <value>Select Game Root Directory</value>
+  </data>
+  <data name="Label_Pal5Q" xml:space="preserve">
+    <value>Paladin Five Prequel</value>
+  </data>
+  <data name="Note_Pal5Q_DLC" xml:space="preserve">
+    <value>Only for modifying the body proportions of the four protagonists in the DLC 'Dream Hua Huan Dou'.</value>
+  </data>
+  <data name="Tab_Adjustment_Header" xml:space="preserve">
+    <value>Body Adjustment
+and Skin Whitening</value>
+  </data>
+  <data name="Tab_Adjustment_Title" xml:space="preserve">
+    <value>Body Adjustment / Skin Whitening</value>
+  </data>
+  <data name="Tab_Adjustment_Description" xml:space="preserve">
+    <value>This feature adjusts the body proportions of the four main characters' models and lightens their skin tone.
+Paladin Five Prequel DLC "Menghua Huandou" also features four main characters, which can also be selected from the list below</value>
+  </data>
+  <data name="Prompt_PleaseSelectThenApply" xml:space="preserve">
+    <value>Please select option and click "Apply" button</value>
+  </data>
+  <data name="Button_Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Button_RestoreDefault" xml:space="preserve">
+    <value>Restore Default</value>
+  </data>
+  <data name="Hint_SelectGamePath" xml:space="preserve">
+    <value>Please select game path</value>
+  </data>
+  <data name="Lang_Simplified" xml:space="preserve">
+    <value>SC</value>
+  </data>
+  <data name="Lang_Traditional" xml:space="preserve">
+    <value>TC</value>
+  </data>
+  <data name="Tab_FontEdit_Header" xml:space="preserve">
+    <value>Font Modification</value>
+  </data>
+  <data name="Tab_FontEdit_Title" xml:space="preserve">
+    <value>Font Modification</value>
+  </data>
+  <data name="Tab_FontEdit_Description" xml:space="preserve">
+    <value>This feature changes the game font to a more comfortable one.
+Please select your preferred font</value>
+  </data>
+  <data name="Group_RecommendedFonts" xml:space="preserve">
+    <value>Recommended Fonts</value>
+  </data>
+  <data name="Font_Chillkai" xml:space="preserve">
+    <value>Chillkai (Recommended)</value>
+  </data>
+  <data name="Font_Xiawu" xml:space="preserve">
+    <value>Xiawu</value>
+  </data>
+  <data name="Font_Default" xml:space="preserve">
+    <value>Huakang Tangfeng Li (Default)</value>
+  </data>
+  <data name="CustomFont" xml:space="preserve">
+    <value>Custom Font</value>
+  </data>
+  <data name="SystemInstallFont" xml:space="preserve">
+    <value>Select from Installed System Fonts</value>
+  </data>
+  <data name="outsideFont" xml:space="preserve">
+    <value>Select from External File</value>
+  </data>
+  <data name="FontTips" xml:space="preserve">
+    <value>Additional Notes</value>
+  </data>
+  <data name="Fontdescription" xml:space="preserve">
+    <value>Some fonts are not supported. It is recommended to select .ttf font files. If text does not display or displays incompletely in the game, please try another font.</value>
+  </data>
+  <data name="Tab_Poposize_Header" xml:space="preserve">
+    <value>MessageDialog Size</value>
+  </data>
+  <data name="Tab_Poposize_Title" xml:space="preserve">
+    <value>Adjust Message Dialog Font Size</value>
+  </data>
+  <data name="Tab_Poposize_Description" xml:space="preserve">
+    <value>Used to adjust the font size of message bubble dialog boxes, NPC dialog boxes and selection boxes, story message boxes, save/load game prompt boxes, return interface prompt boxes, exit game prompt boxes, etc.</value>
+  </data>
+  <data name="Tab_Poposize_Note" xml:space="preserve">
+    <value>Note: This feature conflicts with the UI interface extension feature. The UI interface feature will be applied first before adjusting the message dialog font size.</value>
+  </data>
+  <data name="Size_Small" xml:space="preserve">
+    <value>Small (Default, 18)</value>
+  </data>
+  <data name="Size_Medium" xml:space="preserve">
+    <value>Medium (28)</value>
+  </data>
+  <data name="Size_Large" xml:space="preserve">
+    <value>Large (38)</value>
+  </data>
+  <data name="Size_ExtraLarge" xml:space="preserve">
+    <value>Extra Large (48)</value>
+  </data>
+  <data name="UIresolution_Header" xml:space="preserve">
+    <value>UIResolution
+Extension</value>
+  </data>
+  <data name="UIresolution_Title" xml:space="preserve">
+    <value>UI Interface Resolution Extension</value>
+  </data>
+  <data name="UIresolution_description" xml:space="preserve">
+    <value>Extend the UI interface to 1080P and 2K high resolution. If you don't like it, you can click to restore the default settings.</value>
+  </data>
+  <data name="UIresolution_SettingsButton" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="UIresolution_Settingsdescription" xml:space="preserve">
+    <value>If you need to adjust game settings, please click:</value>
+  </data>
+  <data name="UIresolution_Selectresolution" xml:space="preserve">
+    <value>Please select resolution</value>
+  </data>
+  <data name="UIresolution_FullScreen" xml:space="preserve">
+    <value>Fullscreen</value>
+  </data>
+  <data name="UIresolution_NoteHeader" xml:space="preserve">
+    <value>Important Notes</value>
+  </data>
+  <data name="UIresolution_Note" xml:space="preserve">
+    <value>After selecting a resolution, the game interface will remain as the new interface without needing to reapply. To switch to another resolution, you need to reselect and adjust, otherwise there will be conflicts and display misalignment.
+3840x2160 (4K) resolution does not display all text completely. The recommended solution is to select 1920x1080 resolution with fullscreen mode, or adjust the program's high DPI settings yourself.</value>
+  </data>
+  <data name="HideBattleUI_Header" xml:space="preserve">
+    <value>Hide Battle UI</value>
+  </data>
+  <data name="HideBattleUI_Title" xml:space="preserve">
+    <value>Hide Battle UI Interface</value>
+  </data>
+  <data name="HideBattleUI_description" xml:space="preserve">
+    <value>Used to hide the battle UI interface for ease of recording.
+The battle victory interface is hidden,
+Hide status names and damage numbers.</value>
+  </data>
+  <data name="HideBattleUI_NoteTip" xml:space="preserve">
+    <value>Note: The game may crash when running. Try restarting the game.</value>
+  </data>
+  <data name="RestoreDefault_Header" xml:space="preserve">
+    <value>Restore Settings</value>
+  </data>
+  <data name="RestoreDefault_Title" xml:space="preserve">
+    <value>Restore Initial Settings</value>
+  </data>
+  <data name="RestoreDefault_description" xml:space="preserve">
+    <value>Restore all game configurations to initial settings.
+If previous feature applications failed, you can try restoring initial settings.</value>
+  </data>
+  <data name="TabAbout_Header" xml:space="preserve">
+    <value>About/Feedback</value>
+  </data>
+  <data name="TabAbout_Title" xml:space="preserve">
+    <value>About/Feedback</value>
+  </data>
+  <data name="Link_Text" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="TabAbout_borrowText" xml:space="preserve">
+    <value>Thanks for the contributions made by these people!</value>
+  </data>
+  <data name="TabAbout_description" xml:space="preserve">
+    <value>This program is a beta version and still has many issues. If you encounter any problems, please provide feedback to me on Github or Gitee</value>
+  </data>
+  <data name="TabAbout_tester" xml:space="preserve">
+    <value>AI assistant: ChatGPT
+Test: 清风涧碎花弄影、水月澄明</value>
+  </data>
+  <data name="AboutWindow_Title" xml:space="preserve">
+    <value>About Pal5 Beautify Repair Mod</value>
+  </data>
+  <data name="AboutWindow_TextBlockTitle" xml:space="preserve">
+    <value>Pal5 BeautifyRepair Mod</value>
+  </data>
+  <data name="AboutWindow_description" xml:space="preserve">
+    <value>This MOD is designed to enhance the gaming experience, providing a better experience for players who wish to revisit the game. We hope it can be of help to you</value>
+  </data>
+  <data name="AboutWindow_Programlanguage" xml:space="preserve">
+    <value>build: .Net WPF</value>
+  </data>
+  <data name="AboutWindow_SourceCode" xml:space="preserve">
+    <value>Project:</value>
+  </data>
+  <data name="Customfontlist_WindowTitle" xml:space="preserve">
+    <value>Custom Font List</value>
+  </data>
+  <data name="Customfontlist_description" xml:space="preserve">
+    <value>Please select your preferred font from the list on the left</value>
+  </data>
+  <data name="Button_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Pal5_SelectGamePath" xml:space="preserve">
+    <value>Please select Pal5 root directory</value>
+  </data>
+  <data name="GeneralPathText_PathOK" xml:space="preserve">
+    <value>Game directory recognized</value>
+  </data>
+  <data name="Msg_NoPathSelected" xml:space="preserve">
+    <value>You haven't selected a game path yet! Please select a path from the first option in the left menu~</value>
+  </data>
+  <data name="Msg_NoMODfolder" xml:space="preserve">
+    <value>Pal5Mod_BeautifyRepair folder not found. Please place it in the same directory as the program.</value>
+  </data>
+  <data name="GeneralPathText_NoPath" xml:space="preserve">
+    <value>Game directory not recognized. Please reselect</value>
+  </data>
+  <data name="Pal5Q_SelectGamePath" xml:space="preserve">
+    <value>Please select Pal5 Prequel root directory</value>
+  </data>
+  <data name="GeneralFocus_Pathnotexist" xml:space="preserve">
+    <value>Path does not exist. Please re-enter or select</value>
+  </data>
+  <data name="Msg_Restoredefaultsettings" xml:space="preserve">
+    <value>Restore Initial Default Settings</value>
+  </data>
+  <data name="Msg_Restoredefaultsettings_describe" xml:space="preserve">
+    <value>All settings have been restored to default!
+
+If the game is running, please close the game and restart it to see the effect.</value>
+  </data>
+  <data name="Msg_NoSelectedLang" xml:space="preserve">
+    <value>You haven't selected a language yet! Please select one and click Apply!</value>
+  </data>
+  <data name="Msg_FontEditTitle" xml:space="preserve">
+    <value>Font Modification</value>
+  </data>
+  <data name="Msg_FontEditSuccess" xml:space="preserve">
+    <value>Font changed successfully!
+
+If the game is running, please close the game and restart it to see the effect.
+If it doesn't take effect, please restart the game or change the font.</value>
+  </data>
+  <data name="Msg_NOselectFont" xml:space="preserve">
+    <value>You haven't selected a font yet! Please select one and click Apply!</value>
+  </data>
+  <data name="Msg_Programexception" xml:space="preserve">
+    <value>Program exception occurred</value>
+  </data>
+  <data name="Msg_SelectedFontFile_Title" xml:space="preserve">
+    <value>Please select font file</value>
+  </data>
+  <data name="Msg_HideBattleUI_Title" xml:space="preserve">
+    <value>Hide Battle UI Interface</value>
+  </data>
+  <data name="Msg_NoPal5exePath_error" xml:space="preserve">
+    <value>Pal5.exe not found in the selected directory. Please confirm if it's the correct game directory.</value>
+  </data>
+  <data name="Msg_TrueSuccess" xml:space="preserve">
+    <value>Applied successfully!
+
+If the game is running, please close the game and restart it to see the effect.</value>
+  </data>
+  <data name="Msg_Adjustment_Title" xml:space="preserve">
+    <value>Body Proportion Adjustment and Skin Whitening</value>
+  </data>
+  <data name="Msg_NoSelectAllPath" xml:space="preserve">
+    <value>You haven't selected Pal5/Pal5 Prequel game path yet! Please select a path from the first option in the left menu~</value>
+  </data>
+  <data name="Msg_PopoSize_Title" xml:space="preserve">
+    <value>Adjust Message Dialog Font Size</value>
+  </data>
+  <data name="Msg_PopoSizeSuccess" xml:space="preserve">
+    <value>Font size adjusted successfully!
+
+If the game is running, please close the game and restart it to see the effect.
+If it doesn't take effect, please restart the game or try applying again.</value>
+  </data>
+  <data name="Msg_NoSelectAllFontSize" xml:space="preserve">
+    <value>You haven't selected a font size yet! Please select one and click Apply!</value>
+  </data>
+  <data name="Msg_UIresolution_Title" xml:space="preserve">
+    <value>UI Interface Resolution Extension</value>
+  </data>
+  <data name="Msg_UIresolution_Success" xml:space="preserve">
+    <value>Resolution extension adjusted successfully!
+
+If the game is running, please close the game and restart it to see the effect.
+If it doesn't take effect or crashes occur, please restart the game or try applying again.</value>
+  </data>
+  <data name="Msg_NoSelectedAllresolution" xml:space="preserve">
+    <value>You haven't selected a resolution yet! Please select one and click Apply</value>
+  </data>
+  <data name="BorrowToolsText" xml:space="preserve">
+    <value>Borrowed Items MOD Patch/Tool:</value>
+  </data>
+</root>

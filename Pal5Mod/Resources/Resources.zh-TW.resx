@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Window_Title" xml:space="preserve">
+    <value>仙劍五美化修復Mod</value>
+  </data>
+  <data name="Menu_ProjectRepo" xml:space="preserve">
+    <value>專案倉庫</value>
+  </data>
+  <data name="Menu_Help" xml:space="preserve">
+    <value>說明</value>
+  </data>
+  <data name="Menu_Helpdoc" xml:space="preserve">
+    <value>說明手冊</value>
+  </data>
+  <data name="Menu_About" xml:space="preserve">
+    <value>關於</value>
+  </data>
+  <data name="Menu_Language" xml:space="preserve">
+    <value>介面語言</value>
+  </data>
+  <data name="Lang_SC" xml:space="preserve">
+    <value>簡體中文</value>
+  </data>
+  <data name="Lang_TC" xml:space="preserve">
+    <value>繁體中文</value>
+  </data>
+  <data name="Lang_EN" xml:space="preserve">
+    <value>英文</value>
+  </data>
+  <data name="Prompt_SelectGameThenFunction" xml:space="preserve">
+    <value>請先選擇遊戲路徑，再選擇功能項目</value>
+  </data>
+  <data name="Tab_SelectGamePath" xml:space="preserve">
+    <value>選擇遊戲路徑</value>
+  </data>
+  <data name="Button_Browse" xml:space="preserve">
+    <value>瀏覽</value>
+  </data>
+  <data name="Label_Pal5" xml:space="preserve">
+    <value>仙劍奇俠傳五</value>
+  </data>
+  <data name="Placeholder_SelectRoot" xml:space="preserve">
+    <value>選擇遊戲根目錄</value>
+  </data>
+  <data name="Label_Pal5Q" xml:space="preserve">
+    <value>仙劍奇俠傳五前傳</value>
+  </data>
+  <data name="Note_Pal5Q_DLC" xml:space="preserve">
+    <value>僅用於修改DLC《夢華幻鬥》四主角身體比例調整功能。</value>
+  </data>
+  <data name="Tab_Adjustment_Header" xml:space="preserve">
+    <value>身體比例調整
+和膚色增白</value>
+  </data>
+  <data name="Tab_Adjustment_Title" xml:space="preserve">
+    <value>身體比例調整和膚色增白</value>
+  </data>
+  <data name="Tab_Adjustment_Description" xml:space="preserve">
+    <value>此功能會調整四主角的模型身材比例，並且給膚色增白。仙劍五前傳DLC《夢華幻鬥》也有四主角出场，也可以在下面下拉式選單選擇。</value>
+  </data>
+  <data name="Prompt_PleaseSelectThenApply" xml:space="preserve">
+    <value>請選擇下面選項然後點擊套用按鈕</value>
+  </data>
+  <data name="Button_Apply" xml:space="preserve">
+    <value>套用</value>
+  </data>
+  <data name="Button_RestoreDefault" xml:space="preserve">
+    <value>恢復預設</value>
+  </data>
+  <data name="Hint_SelectGamePath" xml:space="preserve">
+    <value>請選擇遊戲路徑</value>
+  </data>
+  <data name="Lang_Simplified" xml:space="preserve">
+    <value>簡體中文</value>
+  </data>
+  <data name="Lang_Traditional" xml:space="preserve">
+    <value>繁體中文</value>
+  </data>
+  <data name="Tab_FontEdit_Header" xml:space="preserve">
+    <value>字型修改</value>
+  </data>
+  <data name="Tab_FontEdit_Title" xml:space="preserve">
+    <value>字型修改</value>
+  </data>
+  <data name="Tab_FontEdit_Description" xml:space="preserve">
+    <value>此功能會更改遊戲字型，替換更舒適的字型。
+請選擇你喜歡的字型</value>
+  </data>
+  <data name="Group_RecommendedFonts" xml:space="preserve">
+    <value>推薦字型</value>
+  </data>
+  <data name="Font_Chillkai" xml:space="preserve">
+    <value>寒蟬正楷體（推薦）</value>
+  </data>
+  <data name="Font_Xiawu" xml:space="preserve">
+    <value>霞鷺文楷</value>
+  </data>
+  <data name="Font_Default" xml:space="preserve">
+    <value>華康唐風隸（預設字型）</value>
+  </data>
+  <data name="CustomFont" xml:space="preserve">
+    <value>自訂字型</value>
+  </data>
+  <data name="SystemInstallFont" xml:space="preserve">
+    <value>從已安裝的系統中選擇</value>
+  </data>
+  <data name="outsideFont" xml:space="preserve">
+    <value>從外部檔案中選擇</value>
+  </data>
+  <data name="FontTips" xml:space="preserve">
+    <value>附加說明</value>
+  </data>
+  <data name="Fontdescription" xml:space="preserve">
+    <value>有些字型不受支援，建議選擇 .ttf 字型檔案，如發現遊戲內沒有顯示文字或顯示不全，更換其他字型即可。</value>
+  </data>
+  <data name="Tab_Poposize_Header" xml:space="preserve">
+    <value>調整訊息對話方塊字號</value>
+  </data>
+  <data name="Tab_Poposize_Title" xml:space="preserve">
+    <value>調整訊息對話方塊字號</value>
+  </data>
+  <data name="Tab_Poposize_Description" xml:space="preserve">
+    <value>此功能會調整訊息泡泡對話方塊字號大小。主要涉及NPC對話方塊和選擇方塊，劇情訊息方塊，儲存/讀取遊戲/返回介面/結束遊戲提示方塊等。</value>
+  </data>
+  <data name="Tab_Poposize_Note" xml:space="preserve">
+    <value>注意：此功能會與UI介面擴展功能衝突，套用前會先套用UI介面功能，再去調整訊息對話方塊字號。</value>
+  </data>
+  <data name="Size_Small" xml:space="preserve">
+    <value>小 (預設,18號)</value>
+  </data>
+  <data name="Size_Medium" xml:space="preserve">
+    <value>中 (推薦,28號) </value>
+  </data>
+  <data name="Size_Large" xml:space="preserve">
+    <value>大 (38號)</value>
+  </data>
+  <data name="Size_ExtraLarge" xml:space="preserve">
+    <value>特大號 (48號)</value>
+  </data>
+  <data name="UIresolution_Header" xml:space="preserve">
+    <value>UI介面解析度擴展</value>
+  </data>
+  <data name="UIresolution_Title" xml:space="preserve">
+    <value>UI介面解析度擴展</value>
+  </data>
+  <data name="UIresolution_description" xml:space="preserve">
+    <value>此功能會將UI介面擴展至1080P以及2K高解析度，更方便瀏覽介面，如果不喜歡可以點擊恢復預設設定。</value>
+  </data>
+  <data name="UIresolution_SettingsButton" xml:space="preserve">
+    <value>設定程式</value>
+  </data>
+  <data name="UIresolution_Settingsdescription" xml:space="preserve">
+    <value>如需要調整遊戲設定，請點擊：</value>
+  </data>
+  <data name="UIresolution_Selectresolution" xml:space="preserve">
+    <value>請選擇解析度</value>
+  </data>
+  <data name="UIresolution_FullScreen" xml:space="preserve">
+    <value>全螢幕</value>
+  </data>
+  <data name="UIresolution_NoteHeader" xml:space="preserve">
+    <value>注意說明</value>
+  </data>
+  <data name="UIresolution_Note" xml:space="preserve">
+    <value>選擇一種解析度後遊戲介面就會一直是新的介面了，無需再重新套用。如果要切換其他解析度，需要重新選擇調整，不然有衝突，顯示錯位。
+3840x2160（4K）解析度文字顯示不全，建議方案是選擇1920x1080解析度，使用全螢幕模式，或者自行調整程式的高DPI設定。</value>
+  </data>
+  <data name="HideBattleUI_Header" xml:space="preserve">
+    <value>隱藏戰鬥UI介面</value>
+  </data>
+  <data name="HideBattleUI_Title" xml:space="preserve">
+    <value>隱藏戰鬥UI介面</value>
+  </data>
+  <data name="HideBattleUI_description" xml:space="preserve">
+    <value>用於隱藏戰鬥UI介面相關，方便錄影。
+戰鬥勝利介面隱藏，如獲得經驗、取得物品等；
+狀態名稱隱藏，傷害數字隱藏。</value>
+  </data>
+  <data name="HideBattleUI_NoteTip" xml:space="preserve">
+    <value>注意：執行遊戲可能會閃退，嘗試重新啟動遊戲即可。</value>
+  </data>
+  <data name="RestoreDefault_Header" xml:space="preserve">
+    <value>恢復初始設定</value>
+  </data>
+  <data name="RestoreDefault_Title" xml:space="preserve">
+    <value>恢復初始設定</value>
+  </data>
+  <data name="RestoreDefault_description" xml:space="preserve">
+    <value>將遊戲設定全部恢復到初始設定。
+若是前面功能套用失敗可以嘗試恢復初始設定。</value>
+  </data>
+  <data name="TabAbout_Header" xml:space="preserve">
+    <value>關於/回饋</value>
+  </data>
+  <data name="TabAbout_Title" xml:space="preserve">
+    <value>關於/回饋</value>
+  </data>
+  <data name="Link_Text" xml:space="preserve">
+    <value>連結</value>
+  </data>
+  <data name="TabAbout_borrowText" xml:space="preserve">
+    <value>感謝前人的貢獻我才能在基礎上整合，在此感謝！</value>
+  </data>
+  <data name="TabAbout_description" xml:space="preserve">
+    <value>本程序是測試版，仍有很多問題，如果遇到問題可以到微博上給我回饋，如有條件也可以到Github或Gitee幫我修改程式碼……鞠躬！</value>
+  </data>
+  <data name="TabAbout_tester" xml:space="preserve">
+    <value>AI輔助：ChatGPT
+感謝測試：清風澗碎花弄影、水月澄明</value>
+  </data>
+  <data name="AboutWindow_Title" xml:space="preserve">
+    <value>關於仙劍五美化修復Mod</value>
+  </data>
+  <data name="AboutWindow_TextBlockTitle" xml:space="preserve">
+    <value>仙劍五美化修復Mod</value>
+  </data>
+  <data name="AboutWindow_description" xml:space="preserve">
+    <value>本MOD是用於增強《仙劍奇俠傳五》遊戲體驗，做了身材比例調整、字型修改、UI解析度擴展、戰鬥UI介面隱藏等實用功能，以便於想要重溫的玩家給予更好的體驗，希望能帶給你幫助~</value>
+  </data>
+  <data name="AboutWindow_Programlanguage" xml:space="preserve">
+    <value>開發語言：.Net WPF</value>
+  </data>
+  <data name="AboutWindow_SourceCode" xml:space="preserve">
+    <value>專案倉庫：</value>
+  </data>
+  <data name="Customfontlist_WindowTitle" xml:space="preserve">
+    <value>自訂字型清單</value>
+  </data>
+  <data name="Customfontlist_description" xml:space="preserve">
+    <value>請在左側清單中選擇你喜歡的字型</value>
+  </data>
+  <data name="Button_OK" xml:space="preserve">
+    <value>確定</value>
+  </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Pal5_SelectGamePath" xml:space="preserve">
+    <value>請選擇仙五根目錄</value>
+  </data>
+  <data name="GeneralPathText_PathOK" xml:space="preserve">
+    <value>已識別到遊戲目錄</value>
+  </data>
+  <data name="Msg_NoPathSelected" xml:space="preserve">
+    <value>你還沒有選擇遊戲路徑呢！請在左側選單第一個選項選擇一下路徑吧～</value>
+  </data>
+  <data name="Msg_NoMODfolder" xml:space="preserve">
+    <value>沒有找到 Pal5Mod_BeautifyRepair 資料夾，請將其放在程式同級目錄中。</value>
+  </data>
+  <data name="GeneralPathText_NoPath" xml:space="preserve">
+    <value>未識別到遊戲目錄，請重新選擇</value>
+  </data>
+  <data name="Pal5Q_SelectGamePath" xml:space="preserve">
+    <value>請選擇仙五前傳根目錄</value>
+  </data>
+  <data name="GeneralFocus_Pathnotexist" xml:space="preserve">
+    <value>路徑不存在，請重新輸入或選擇</value>
+  </data>
+  <data name="Msg_Restoredefaultsettings" xml:space="preserve">
+    <value>恢復初始預設設定</value>
+  </data>
+  <data name="Msg_Restoredefaultsettings_describe" xml:space="preserve">
+    <value>已全部恢復預設設定！
+如果遊戲正在執行，請關閉遊戲再重新啟動查看效果。</value>
+  </data>
+  <data name="Msg_NoSelectedLang" xml:space="preserve">
+    <value>你還沒有選擇語言呢！選擇一下再按套用吧！</value>
+  </data>
+  <data name="Msg_FontEditTitle" xml:space="preserve">
+    <value>字型修改</value>
+  </data>
+  <data name="Msg_FontEditSuccess" xml:space="preserve">
+    <value>字型更改成功！
+如果遊戲正在執行，請關閉遊戲再重新啟動查看效果。
+如果未生效請再重啟遊戲或者更換字型。</value>
+  </data>
+  <data name="Msg_NOselectFont" xml:space="preserve">
+    <value>你還沒有選擇字型呢！選擇一下再按套用吧！</value>
+  </data>
+  <data name="Msg_Programexception" xml:space="preserve">
+    <value>程式發生異常</value>
+  </data>
+  <data name="Msg_SelectedFontFile_Title" xml:space="preserve">
+    <value>請選擇字型檔案</value>
+  </data>
+  <data name="Msg_HideBattleUI_Title" xml:space="preserve">
+    <value>隱藏戰鬥UI介面</value>
+  </data>
+  <data name="Msg_NoPal5exePath_error" xml:space="preserve">
+    <value>選擇的目錄中未找到 Pal5.exe，請確認是否為正確的遊戲目錄。</value>
+  </data>
+  <data name="Msg_TrueSuccess" xml:space="preserve">
+    <value>套用成功！
+如果遊戲正在執行，請關閉遊戲後重新啟動查看效果。</value>
+  </data>
+  <data name="Msg_Adjustment_Title" xml:space="preserve">
+    <value>身體比例調整和膚色增白</value>
+  </data>
+  <data name="Msg_NoSelectAllPath" xml:space="preserve">
+    <value>你還沒有選擇仙劍五/仙劍五前傳遊戲路徑呢！請在左側選單第一個選項選擇路徑吧～</value>
+  </data>
+  <data name="Msg_PopoSize_Title" xml:space="preserve">
+    <value>調整訊息對話方塊字號</value>
+  </data>
+  <data name="Msg_PopoSizeSuccess" xml:space="preserve">
+    <value>字號調整成功！
+如果遊戲正在執行，請關閉遊戲再重新啟動查看效果。
+如果發現未生效請重啟遊戲或再次嘗試套用。</value>
+  </data>
+  <data name="Msg_NoSelectAllFontSize" xml:space="preserve">
+    <value>你還沒有選擇字號呢！選擇一下再按套用吧！</value>
+  </data>
+  <data name="Msg_UIresolution_Title" xml:space="preserve">
+    <value>UI介面解析度擴展</value>
+  </data>
+  <data name="Msg_UIresolution_Success" xml:space="preserve">
+    <value>解析度擴展調整成功！
+如果遊戲正在執行，請關閉遊戲再重新啟動查看效果。
+如果未生效或出現閃退請重啟遊戲或再次嘗試套用。</value>
+  </data>
+  <data name="Msg_NoSelectedAllresolution" xml:space="preserve">
+    <value>你還沒有選擇解析度呢！選擇一下再按套用吧</value>
+  </data>
+  <data name="BorrowToolsText" xml:space="preserve">
+    <value>借物MOD補丁/工具：</value>
+  </data>
+</root>

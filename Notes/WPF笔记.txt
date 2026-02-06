@@ -1,0 +1,243 @@
+目标框架：NETFramework 4.8
+语言：C# WPF
+UI控件库：MaterialDesignThemes
+
+==============================
+
+1、UI框架选择
+MaterialDesignThemes 当前版本号：5.3.0
+https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit
+必须是安装稳定版本，更新开发版会导致错误
+    
+xaml.cs文件要引用：using MaterialDesignThemes.Wpf;
+xaml文件在Window开头添加 xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    
+BUG: MaterialDesignTheme和Fody包会有冲突，会看不到界面，还会报错，无法解决。
+最好最终用Enigma Virtual Box来打包dll和exe文件。
+如果界面没加载，需要重新生成解决方案。就能看到界面了。
+
+这个UI控件库感觉不是太好看，很久没用了修了一堆BUG，而且不能自定义消息框，据说会导致内存泄漏卡死。
+消息框全部改调用系统的消息框了。
+以后要再做WPF项目还是用别的UI库吧，例如：
+HandyControl
+Avalonia
+
+-------------------------------------------
+
+2、如果报错出现C#不支持高级语法，就去 csproj 项目文件顶部增加 LangVersion 代码。
+代码：
+<LangVersion>12.0</LangVersion>
+
+-------------------------------------------
+
+3、安装 Fody 库编译生成报错，原因是和 MaterialDesignTheme 冲突，如果要编译后不想要一些文件，可以在项目属性——生成事件，编写下面命令：
+del *.xml
+del *.pdb
+
+最终用Enigma Virtual Box来打包dll和exe文件。
+
+-------------------------------------------
+
+4、GIF动图播放 
+WPF不支持直接使用image来存放GIF图，需要用插件或者后台使用MediaElement事件
+
+NuGet包搜索：WpfAnimatedGif 或 XamlAnimatedGif 安装
+WpfAnimatedGif很久不更新了，不推荐使用，推荐用XamlAnimatedGif，较稳定。
+
+在XAML文件中添加头文件XamlAnimatedGif的头文件命令：
+xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+Grid中间添加：
+<Image gif:AnimationBehavior.SourceUri="图片的路径"/>    
+
+xaml设计界面看起来没有加载图片，实际上已经加载成功了，通过调试或生成项目就会出现图片。
+
+-------------------------------------------
+
+5、关于异步复制文件
+异步操作：在处理大量文件或大文件时，使用异步操作可以提高应用程序的响应性能。
+可以将文件复制操作改为异步方法，并使用async和await关键字来处理异步操作。
+以前的后台控件BackgroundWorker已过时，不推荐使用，新的方法是推荐使用async和await来复制文件。
+
+参考文章：https://blog.csdn.net/TianXuanZhiZi_IT/article/details/128330298
+
+-------------------------------------------
+
+6、WPF多语言本地化切换方法 
+
+教程：https://www.bilibili.com/video/BV1rVc3eoE6r/
+
+1、DynamicResource 动态加载，这个方法容易造成文字消失且无法切换，建议放弃。
+2、StaticResource 静态加载，官方推荐的resx资源方式，切换后要重启软件。
+3、使用第三方库，更好实现热重载切换语言，推荐。
+【推荐】WPFLocalizeExtension：https://github.com/XAMLMarkupExtensions/WPFLocalizeExtension
+【测试不成功】Antelcat.{I18N}：https://github.com/Antelcat/I18N
+
+WPFLocalizeExtension 在 MainWindow.xmal 添加：
+xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+xmlns:Loc="clr-namespace:WPFLocalizeExtension.Extensions;assembly=WPFLocalizeExtension"
+lex:ResxLocalizationProvider.DefaultAssembly="Pal5Mod_BeautifyRepair"
+lex:ResxLocalizationProvider.DefaultDictionary="Resources.Resources"
+lex:LocalizeDictionary.DesignCulture="zh-CN"
+
+xmal 多语言编写：
+Title="{lex:Loc Window_Title}"
+
+cs 文件消息框调用：
+        // ==========================
+        //  多语言切换事件
+        //  使用 WPFLocalizeExtension 库
+        // ==========================
+
+        // ini读取语言配置
+        private void LoadLanguageFromConfig()
+        {
+            // 从 ini 读取语言，如果没有配置，默认用简体中文 "zh-CN"
+            string savedLang = ReadConfigValue(LanguageKey, "zh-CN");
+            // 应用语言
+            LocalizeDictionary.Instance.Culture = new System.Globalization.CultureInfo(savedLang);
+        }
+
+        // 多语言菜单切换事件
+        private void Lang_SC_Click(object sender, RoutedEventArgs e)
+        {
+            SetLanguage("zh-CN");
+        }
+        private void Lang_TC_Click(object sender, RoutedEventArgs e)
+        {
+            SetLanguage("zh-TW");
+        }
+        private void Lang_EN_Click(object sender, RoutedEventArgs e)
+        {
+            SetLanguage("en");
+        }
+
+        // 统一的语言切换方法
+        private void SetLanguage(string cultureCode)
+        {
+            // 修改本地化扩展的当前文化
+            LocalizeDictionary.Instance.Culture = new System.Globalization.CultureInfo(cultureCode);
+
+            // 写入ini配置
+            SaveGamePathToConfig(cultureCode, LanguageKey);
+        }
+
+        // 多语言资源统一调用类
+        public static class L
+        {
+            public static string Get(string key)
+            {
+                return LocExtension.GetLocalizedValue<string>($"Pal5Mod_BeautifyRepair:Resources.Resources:{key}");
+            }
+        }
+
+消息框例子：
+ShowMsg(title, L.Get("Msg_NoMODfolder"), MessageBoxImage.Warning);
+
+-------------------------------------------
+
+7、增加了复制文件校验检测代码
+
+        // 核心方法1：仅当文件不同时复制单个文件
+        private void CopyFileIfDifferent(string sourcePath, string targetPath)
+        {
+            // 源文件不存在则直接返回（或抛出异常，根据你的需求）
+            if (!File.Exists(sourcePath))
+            {
+                Console.WriteLine($"源文件不存在：{sourcePath}");
+                return;
+            }
+
+            Directory.CreateDirectory(Path.GetDirectoryName(targetPath)!);
+
+            // 目标文件不存在，直接复制
+            if (!File.Exists(targetPath))
+            {
+                File.Copy(sourcePath, targetPath, true);
+                Console.WriteLine($"文件不存在，已复制：{targetPath}");
+                return;
+            }
+
+            // 先对比文件大小（快速筛选，大小不同直接复制）
+            var s = new FileInfo(sourcePath);
+            var d = new FileInfo(targetPath);
+            if (s.Length != d.Length)
+            {
+                File.Copy(sourcePath, targetPath, true);
+                Console.WriteLine($"文件大小不同，已覆盖：{targetPath}");
+                return;
+            }
+
+            // 大小相同，再对比MD5（精准校验）
+            if (GetFileMD5(sourcePath) != GetFileMD5(targetPath))
+            {
+                File.Copy(sourcePath, targetPath, true);
+                Console.WriteLine($"文件MD5不同，已覆盖：{targetPath}");
+            }
+            else
+            {
+                Console.WriteLine($"文件内容一致，跳过复制：{targetPath}");
+            }
+        }
+
+        // 核心方法2：仅当文件不同时复制整个文件夹（递归）
+        private void CopyFolderIfDifferent(string sourceDir, string targetDir)
+        {
+            // 源目录不存在则返回
+            if (!Directory.Exists(sourceDir))
+            {
+                Console.WriteLine($"源目录不存在：{sourceDir}");
+                return;
+            }
+
+            Directory.CreateDirectory(targetDir); 
+
+            // 遍历源目录下的所有文件
+            foreach (string filePath in Directory.GetFiles(sourceDir))
+            {
+                string fileName = Path.GetFileName(filePath);
+                string targetFilePath = Path.Combine(targetDir, fileName);
+                CopyFileIfDifferent(filePath, targetFilePath); // 复用单个文件的校验逻辑
+            }
+
+            // 递归处理子目录
+            foreach (string subDir in Directory.GetDirectories(sourceDir))
+            {
+                string subDirName = Path.GetFileName(subDir);
+                string targetSubDir = Path.Combine(targetDir, subDirName);
+                Directory.CreateDirectory(targetSubDir); // 确保子目录存在
+                CopyFolderIfDifferent(subDir, targetSubDir);
+            }
+        }
+
+        // 辅助方法：计算文件的MD5哈希值
+        private string GetFileMD5(string filePath)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = new FileStream( // 防止被占用
+                    filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    byte[] hashBytes = md5.ComputeHash(stream);
+                    // 将字节数组转换为十六进制字符串
+                    return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+                }
+            }
+        }
+
+调用：
+CopyFileIfDifferent(sourceFile1, targetFile1);
+CopyFolderIfDifferent(sourceDirectory, targetDirectory);
+
+-------------------------------------------
+
+8、增加给Pal5.exe填写管理员运行权限
+
+为防止闪退，给程序自动勾选“以管理员身份运行此程序”
+
+-------------------------------------------
+
+
+-------------------------------------------
+
+
+-------------------------------------------

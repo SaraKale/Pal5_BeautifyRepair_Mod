@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pal5Mod_BeautifyRepair", "Pal5Mod\Pal5Mod_BeautifyRepair.csproj", "{005F6733-AAC7-467B-9C87-7ED698020FCD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{005F6733-AAC7-467B-9C87-7ED698020FCD}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{005F6733-AAC7-467B-9C87-7ED698020FCD}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{005F6733-AAC7-467B-9C87-7ED698020FCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{005F6733-AAC7-467B-9C87-7ED698020FCD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {363516A7-0D73-472D-B37A-0B828E88318A}
+	EndGlobalSection
+EndGlobal

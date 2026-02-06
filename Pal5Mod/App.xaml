@@ -1,0 +1,61 @@
+﻿<Application x:Class="仙剑五美化修复Mod.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:仙剑五美化修复Mod" 
+             StartupUri="UI/MainWindow.xaml">
+
+    <!--
+    MaterialDesignThemes 当前版本号：5.3.0
+    https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit
+    必须是安装稳定版本，更新开发版会导致错误
+    
+    xaml.cs文件要引用：using MaterialDesignThemes.Wpf;
+    xaml文件在Window开头添加 xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    
+    BUG: MaterialDesignTheme和Fody包会有冲突，会看不到界面，还会报错，无法解决。最好最终用Enigma Virtual Box来打包dll和exe文件。
+    如果界面没加载，需要重新生成解决方案。就能看到界面了。
+    -->
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- MaterialDesignThemes 5.3.0 -->
+            <ResourceDictionary.MergedDictionaries>
+                <!-- 
+                BaseTheme 主题模式
+                PrimaryColor 主色
+                SecondaryColor 次色
+                -->
+                <materialDesign:CustomColorTheme BaseTheme="Light" PrimaryColor="#FFFFE0B2" SecondaryColor="Bisque" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- MD3 5.3.0 新颜色代码
+            MaterialDesign.Brush.Primary	主色（按钮背景等）
+            MaterialDesign.Brush.OnPrimary	主色上的文字颜色
+            MaterialDesign.Brush.Secondary	副色
+            MaterialDesign.Brush.Primary.Container	主色容器（较浅）
+            MaterialDesign.Brush.Background	窗体背景色
+
+            <SolidColorBrush x:Key="MaterialDesign.Brush.Primary" Color="#FFFFE0B2" />
+            <SolidColorBrush x:Key="MaterialDesign.Brush.OnPrimary" Color="#FFFFFF" />
+            <SolidColorBrush x:Key="MaterialDesign.Brush.Secondary" Color="Bisque" />
+            -->
+
+            <!-- 全局字体资源 -->
+            <FontFamily x:Key="AppFontFamily">Microsoft YaHei UI</FontFamily>
+
+            <!-- 对大多数控件（Button、Label、TextBox 等）生效 -->
+            <Style TargetType="{x:Type Control}">
+                <Setter Property="FontFamily" Value="{StaticResource AppFontFamily}" />
+            </Style>
+
+            <!-- TextBlock 不是 Control，要单独设置 -->
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="{StaticResource AppFontFamily}" />
+            </Style>
+        </ResourceDictionary>
+        
+    </Application.Resources>
+</Application>
+    

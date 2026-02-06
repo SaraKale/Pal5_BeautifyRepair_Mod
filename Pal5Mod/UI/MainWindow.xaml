@@ -1,0 +1,854 @@
+﻿<Window x:Name="mod_window" x:Class="仙剑五美化修复Mod.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:仙剑五美化修复Mod"
+        mc:Ignorable="d" 
+        Style="{StaticResource MaterialDesignWindow}"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com" 
+        xmlns:Loc="clr-namespace:WPFLocalizeExtension.Extensions;assembly=WPFLocalizeExtension"
+        lex:ResxLocalizationProvider.DefaultAssembly="Pal5Mod_BeautifyRepair"
+        lex:ResxLocalizationProvider.DefaultDictionary="Resources.Resources"
+        lex:LocalizeDictionary.DesignCulture="zh-CN"
+        Title="{lex:Loc Window_Title}" Height="620" Width="800" Icon="Pal5ico.png" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen">
+
+    <!-- BUG: MaterialDesignTheme和Fody包会有冲突，会看不到界面，还会报错，无法解决。最好最终用Enigma Virtual Box来打包dll和exe文件。 -->
+
+    <!-- 
+        WPF多语言本地化切换方法 教程：https://www.bilibili.com/video/BV1rVc3eoE6r/
+        1、DynamicResource 动态加载，这个方法容易造成文字消失且无法切换，建议放弃。
+        2、StaticResource 静态加载，官方推荐的resx资源方式，切换后要重启软件。
+        3、使用第三方库，更好实现热重载切换语言，推荐。
+        【推荐】WPFLocalizeExtension：https://github.com/XAMLMarkupExtensions/WPFLocalizeExtension
+        Antelcat.{I18N}：https://github.com/Antelcat/I18N
+        
+      实时查看界面语言，在顶部添加：
+        lex:LocalizeDictionary.DesignCulture="zh-CN"
+    -->
+    <!-- ResizeMode（窗口缩放模式）
+     CanResize:（默认值）允许鼠标拖动边缘缩放，显示最大化、最小化、关闭按钮
+     CanResizeWithGrip: 允许鼠标缩放，窗口右下角显示专属缩放手柄（Grip），视觉上明确提示可缩放，同时显示最大化/最小化/关闭按钮
+     NoResize： 禁止所有缩放操作，窗口大小固定，隐藏最大化、最小化按钮（仅保留关闭）
+     CanMinimize：仅允许最小化窗口，禁止缩放和最大化，最大化按钮置灰
+    -->
+    <!-- 自适应缩放
+        VerticalScrollBarVisibility="Auto" 只有当内容高度 > 可视高度时，才显示竖滚动条
+        HorizontalScrollBarVisibility="Disabled" 禁用水平滚动条
+        Padding="24" 内容与边框的内边距为24
+    -->
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="24">
+
+        <!-- 窗口背景 -->
+        <!--
+            主布局 Grid
+            行说明：
+            Row 0：标题 / 顶部信息（Auto）
+            Row 1：主体内容（*，自适应）
+            Row 2：按钮区（Auto）
+        -->
+        <Grid x:Name="bg_window" AutomationProperties.IsOffscreenBehavior="Onscreen" Background="#f7f9f9">
+            <!-- 布局结构，分别是：顶部、中间、底部 -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 菜单 -->
+            <Menu Background="#FFF3F3F3" Grid.RowSpan="3">
+                <MenuItem Header="{lex:Loc Menu_ProjectRepo}" FontFamily="Microsoft YaHei UI" Height="40">
+                    <!-- 项目仓库 -->
+                    <MenuItem Header="Github" Click="Github_Click"/>
+                    <!-- Github -->
+                    <MenuItem Header="Gitee" Click="Gitee_Click"/>
+                    <!-- Gitee -->
+                </MenuItem>
+                <!-- 帮助 -->
+                <MenuItem Header="{lex:Loc Menu_Help}" FontFamily="Microsoft YaHei UI" Height="40">
+                    <!-- 帮助手册 -->
+                    <MenuItem Header="{lex:Loc Menu_Helpdoc}" Click="Helpdoc_Click"/>
+                    <!-- 关于 -->
+                    <MenuItem Header="{lex:Loc Menu_About}" Click="AboutMe_Click"/>
+                </MenuItem>
+                <!-- 界面语言 -->
+                <MenuItem Header="{lex:Loc Menu_Language}" FontFamily="Microsoft YaHei UI" Height="40">
+                    <!-- 简体中文 -->
+                    <MenuItem Header="{lex:Loc Lang_SC}" Tag="zh-CN" Click="Lang_SC_Click"/>
+                    <!-- 繁体中文 -->
+                    <MenuItem Header="{lex:Loc Lang_TC}" Tag="zh-TW" Click="Lang_TC_Click"/>
+                    <!-- English -->
+                    <MenuItem Header="{lex:Loc Lang_EN}" Tag="en" Click="Lang_EN_Click"/>
+                </MenuItem>
+            </Menu>
+
+            <!-- =========================
+                    浏览目录 
+            ========================= -->
+
+            <!-- 请先选择游戏路径，再选择功能项 -->
+            <TextBlock HorizontalAlignment="Left" Margin="46,52,0,0" TextWrapping="Wrap" Text="{lex:Loc Prompt_SelectGameThenFunction}" VerticalAlignment="Top" Height="26" Width="704" FontSize="18" FontWeight="Bold"/>
+
+            <!-- 垂直选项卡 功能选项 -->
+            <materialDesign:Card Margin="36,88,36,24" Padding="-52,0,-100,0" Background="White"  Grid.Row="0">
+                <!-- 选项卡内容页，Margin建议不要设置，会被裁剪 -->
+                <TabControl  TabStripPlacement="Left"
+                        materialDesign:ColorZoneAssist.Mode="PrimaryMid"
+                        Style="{StaticResource MaterialDesignFilledTabControl}" >
+                    <TabControl.Resources>
+                        <SolidColorBrush x:Key="MaterialDesignLightForeground" Color="{DynamicResource PrimaryHueMidBrushColor}" />
+                    </TabControl.Resources>
+
+                    <!-- 游戏路径选择 -->
+                    <TabItem Grid.Row="0" BorderBrush="#FF5E81C4" Background="Red" Foreground="#c62828" FontFamily="Microsoft YaHei UI" Height="50" Margin="0,0,0,5">
+                        <TabItem.Header>
+                            <!-- 选择游戏路径 -->
+                            <TextBlock Text="{lex:Loc Tab_SelectGamePath}" FontSize="18" Foreground="#FF7B3939" FontFamily="Microsoft YaHei UI" HorizontalAlignment="Left"/>
+                        </TabItem.Header>
+                        <Grid Width="719" Height="Auto" HorizontalAlignment="Left">
+                            <!-- 仙剑五路径 -->
+                            <!-- 浏览按钮 -->
+                            <Button x:Name="Pal5_GamePathbotton" Content="{lex:Loc Button_Browse}" 
+                                HorizontalAlignment="Left" Margin="396,63,0,0" VerticalAlignment="Top" 
+                                Height="32" Width="91" IsCancel="True" 
+                                Background="#FFABCDFB" Foreground="#FF25160C" BorderBrush="{x:Null}"
+                                FontFamily="Microsoft YaHei UI" FontSize="16" 
+                                Click="Pal5_GamePathbotton_Click" 
+                                IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                            <!-- 仙剑五标题 -->
+                            <TextBlock HorizontalAlignment="Left" Margin="27,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                   Height="28" Width="300" FontWeight="Bold" 
+                                   Text="{lex:Loc Label_Pal5}" FontFamily="Microsoft YaHei UI" FontSize="18" Foreground="Black"/>
+                            <!-- 选择游戏根目录 -->
+                            <TextBox x:Name="Pal5_GamePath" Margin="27,64,0,0" Text="{lex:Loc Placeholder_SelectRoot}" VerticalAlignment="Top" 
+                                 Width="354" Height="29" BorderBrush="#FF505A79" Background="#FFECECEC" 
+                                 HorizontalAlignment="Left" SelectionOpacity="0.3" FontFamily="Microsoft YaHei" FontSize="16" Foreground="Black" 
+                                 AllowDrop="True" TextChanged="Pal5_GamePath_TextChanged" 
+                                 PreviewKeyDown="Pal5_GamePath_PreviewKeyDown"
+                                 LostFocus="Pal5_GamePath_LostFocus"
+                                 DragOver="Pal5_GamePath_DragOver"
+                                 Drop="Pal5_GamePath_Drop"
+                                 materialDesign:TextFieldAssist.UnderlineBrush="#c62828"/>
+                            <TextBlock x:Name="Pal5_Pathtishi" HorizontalAlignment="Left" 
+                                   Height="26" Margin="27,101,0,0" TextWrapping="Wrap" 
+                                   VerticalAlignment="Top" Width="354" FontSize="17" Text="" />
+
+                            <!-- 仙五前传路径 -->
+                            <!-- 仙剑五前传标题 -->
+                            <TextBlock Foreground="Black" FontSize="18" Margin="30,155,207,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                   Height="32" FontWeight="Bold">
+                                    <Run Language="zh-cn" Text="{lex:Loc Label_Pal5Q}"/></TextBlock>
+                            <!-- 选择游戏根目录 -->
+                            <TextBox x:Name="PAL5QPath" Margin="30,242,0,0" Text="{lex:Loc Placeholder_SelectRoot}" VerticalAlignment="Top" 
+                                 Width="351" Height="29" HorizontalAlignment="Left" SelectionOpacity="0.3" 
+                                 BorderBrush="#FF505A79" Background="#FFECECEC" Foreground="Black" 
+                                 FontFamily="Microsoft YaHei" FontSize="16" 
+                                 TextChanged="PAL5Q_GamePath_TextChanged"  AllowDrop="True"
+                                 PreviewKeyDown="PAL5Q_GamePath_PreviewKeyDown"
+                                 LostFocus="PAL5Q_GamePath_LostFocus"
+                                 DragOver="PAL5QPath_DragOver"
+                                 Drop="PAL5QPath_Drop"
+                                 materialDesign:TextFieldAssist.UnderlineBrush="#c62828"  />
+                            <TextBlock x:Name="PAL5Q_Pathtishi" HorizontalAlignment="Left" 
+                                   Height="26" Margin="30,279,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                   Width="315" FontSize="17" />
+                            <!-- 浏览按钮 -->
+                            <Button x:Name="PAL5QPathbotton" Content="{lex:Loc Button_Browse}" 
+                                HorizontalAlignment="Left" Margin="396,241,0,0" 
+                                VerticalAlignment="Top" Foreground="#FF25160C" BorderBrush="{x:Null}"  Background="#FFABCDFB"
+                                Height="32" Width="91" IsCancel="True" 
+                                FontFamily="Microsoft YaHei UI" FontSize="16" 
+                                Click="PAL5QPathbotton_ClicK" IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                            <!-- 仅用于修改DLC《梦华幻斗》四主角身体比例调整功能。 -->
+                            <TextBlock Foreground="Black" FontSize="18" Margin="30,188,223,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="47">
+                                    <Run Text="{lex:Loc Note_Pal5Q_DLC}"/></TextBlock>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- =========================
+                             UI界面分辨率扩展
+                     ========================= -->
+                    <TabItem Grid.Row="0" BorderBrush="#FF5E81C4" Background="Red" Foreground="#c62828" Height="50" Margin="0,-10,0,5">
+                        <TabItem.Header>
+                            <TextBlock Text="{lex:Loc UIresolution_Header}" FontSize="18" Foreground="#FF7B3939" FontFamily="Microsoft YaHei UI"/>
+                        </TabItem.Header>
+                        <!-- 
+                        垂直滚动条 
+                        如果Grid的内容超出了屏幕的高度，则会显示一个垂直滚动条 
+                        水平滚动条 HorizontalScrollBarVisibility="Auto"
+                        垂直滚动条 VerticalScrollBarVisibility="Auto"
+                         -->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <Grid Background="White" Width="529" Height="697" HorizontalAlignment="Left">
+
+                                <TextBlock x:Name="Tab_UI_Text1" Foreground="Black" HorizontalAlignment="Left" Margin="30,31,0,0" TextWrapping="Wrap" 
+                                        VerticalAlignment="Top" Height="34" Width="390" FontSize="20" FontWeight="Bold" Grid.RowSpan="1">
+                                        <Run Language="zh-cn" Text="{lex:Loc UIresolution_Title}"/></TextBlock>
+                                <!-- 此功能会将UI界面扩展至1080P以及2K高分辨率，更方便浏览界面，如果不喜欢可以点击恢复默认设置。 -->
+                                <TextBlock x:Name="Tab_UI_Text2" Foreground="Black" HorizontalAlignment="Left" Margin="28,70,0,0" TextWrapping="Wrap" 
+                                   VerticalAlignment="Top" Height="85" Width="441" FontSize="18">
+                                    <Run Text="{lex:Loc UIresolution_description}"/><LineBreak/><Run/><LineBreak/></TextBlock>
+                                <!-- 请选择下面选项然后点击应用按钮 -->
+                                <TextBlock x:Name="Tab_UI_Text3" Foreground="Black" HorizontalAlignment="Left" Margin="28,145,0,0" TextWrapping="Wrap" 
+                                   VerticalAlignment="Top" Height="32" Width="441" FontSize="18">
+                                    <Run Language="zh-cn" Text="{lex:Loc Prompt_PleaseSelectThenApply}"/></TextBlock>
+                                <!-- 应用按钮 -->
+                                <Button x:Name="Tab_UIdesign_Button"  Content="{lex:Loc Button_Apply}"  FontSize="18" HorizontalAlignment="Left" Margin="28,282,0,0" 
+                                VerticalAlignment="Top" Height="40" Width="118" Click="Tab_UIdesign_Button_Click"  
+                                    BorderBrush="#FF90B3E6" Background="#FF5285D0"  Foreground="White" 
+                                    IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                    Style="{StaticResource MaterialDesignFlatLightBgButton}"/>
+                                <!-- 恢复默认按钮 -->
+                                <Button x:Name="Tab_UIdesign_Button2"  Content="{lex:Loc Button_RestoreDefault}"
+                                FontSize="18" HorizontalAlignment="Left" Margin="176,282,0,0" 
+                                VerticalAlignment="Top" Height="40" Width="185" Click="Tab_UIdesign_Button2_Click" 
+                                  BorderBrush="{x:Null}" Background="#FFD7DBE0"  Foreground="Black"
+                                  IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                  RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                  Style="{StaticResource MaterialDesignOutlinedButton}"/>
+                                <!-- 运行游戏 
+                                <Button x:Name="RunGame" Content="运行游戏" FontSize="18" HorizontalAlignment="Left" Margin="328,263,0,0" 
+                                VerticalAlignment="Top" Height="40" Width="153" Click="RunGame_Click" BorderBrush="{x:Null}" Background="#FFEDA08F"   
+                                  IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                  RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                  Style="{StaticResource MaterialDesignRaisedSecondaryButton}" Grid.Row="1" />
+                                -->
+                                <!-- 设置程序 -->
+                                <TextBlock x:Name="Tab_UI_Text4" Foreground="Black" HorizontalAlignment="Left" Margin="28,344,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="54" Width="256" FontSize="18">
+                                    <!-- 如需要调整游戏设置，请点击： -->
+                                    <Run Language="zh-cn" Text="{lex:Loc UIresolution_Settingsdescription}"/></TextBlock>
+                                <!-- 设置程序按钮 -->
+                                <Button x:Name="RunConfig"  Content="{lex:Loc UIresolution_SettingsButton}"  FontSize="18" HorizontalAlignment="Left" Margin="322,344,0,0" 
+                                VerticalAlignment="Top" Height="35" Width="120" Click="RunConfig_Click"  BorderBrush="{x:Null}" 
+                                 Background="#FF6A83BF"  Foreground="White" 
+                                IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignFlatLightBgButton}"/>
+                                <!-- 分辨率选项 -->
+                                <ComboBox HorizontalAlignment="Left" Margin="28,182,0,0" Padding="3,10,5,5" 
+                                      Width="281" Height="42" FontSize="16" Cursor=""
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}" 
+                                      Background="White" Foreground="Black" BorderBrush="#c62828"
+                                      x:Name="UIlist" SelectionChanged="UIlist_SelectionChanged"
+                                      materialDesign:HintAssist.Hint="{lex:Loc UIresolution_Selectresolution}"
+                                      materialDesign:HintAssist.Foreground="#c62828" VerticalAlignment="Top" Grid.RowSpan="2">
+                                    <ComboBoxItem x:Name="UIlist_1024x768">1024 X 768（4:3）</ComboBoxItem>
+                                    <ComboBoxItem x:Name="UIlist_1280x720">1280 X 720（16:9）</ComboBoxItem>
+                                    <ComboBoxItem x:Name="UIlist_1280x800">1280 X 800（16:10）</ComboBoxItem>
+                                    <ComboBoxItem x:Name="UIlist_1280x1024">1280 X 1024（5:4）</ComboBoxItem>
+                                    <ComboBoxItem x:Name="UIlist_1366x768">1366 X 768（16:9）</ComboBoxItem>
+                                    <ComboBoxItem x:Name="UIlist_1440x900">1440 X 900（16:10）</ComboBoxItem>
+                                    <ComboBoxItem x:Name="UIlist_1600x900">1600 X 900（16:9）</ComboBoxItem>
+                                    <ComboBoxItem x:Name="UIlist_1600x1200">1600 X 1200（4:3）</ComboBoxItem>
+                                    <ComboBoxItem x:Name="UIlist_1680x1050">1680 X 1050（16:10）</ComboBoxItem>
+                                    <ComboBoxItem x:Name="UIlist_1920x1080">1920 X 1080（16:9）</ComboBoxItem>
+                                    <ComboBoxItem x:Name="UIlist_2560x1440">2560 X 1440（16:9）</ComboBoxItem>
+                                </ComboBox>
+                                <!-- 全屏 -->
+                                <CheckBox Content="{lex:Loc UIresolution_FullScreen}" x:Name="FullScreen" Margin="328,185,-328,0" 
+                                  VerticalAlignment="Top" Height="34" Width="Auto" FontSize="22" 
+                                  Foreground="#FF020000" BorderBrush="#FFCA6060" Background="#FFC37070"
+                                  materialDesign:CheckBoxAssist.CheckBoxSize="28" Checked="FullScreen_Checked" Grid.RowSpan="2"/>
+                                <!-- 简体中文 -->
+                                <RadioButton x:Name="UIdesignlist_SC" Content="{lex:Loc Lang_Simplified}"  GroupName="raido"
+                                         Background="#c62828" BorderBrush="#c62828" Foreground="Black" 
+                                         BorderThickness="2,2,2,2" Height="33" Padding="2,2,2,2" FontSize="22" Width="129" 
+                                         Style="{StaticResource MaterialDesignRadioButton}" HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" RenderTransformOrigin="0.178,0.811" Checked="UIdesignlist_SC_Checked" Margin="26,235,0,0"/>
+                                <!-- 繁体中文 -->
+                                <RadioButton x:Name="UIdesignlist_TC" Content="{lex:Loc Lang_Traditional}" GroupName="raido"
+                                         Background="#c62828" BorderBrush="#c62828" Foreground="Black" 
+                                         BorderThickness="2,2,2,2" Height="33" Padding="2,2,2,2" FontSize="22" Width="135" 
+                                         Style="{StaticResource MaterialDesignRadioButton}" HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" RenderTransformOrigin="0.849,0.849"
+                                         Checked="UIdesignlist_TC_Checked" Margin="172,235,0,0"/>
+                                <!-- 
+                                附加说明 
+                                如需调整文字内容高度只需在TextBlock调整Height数值
+                                如需要调整内容框高度，需调整Grid的Height值，就能扩展字体内容了。
+                                 -->
+                                <materialDesign:Card Margin="16,420,48,0" Background="{x:Null}" Height="Auto" Grid.Row="1">
+                                    <StackPanel>
+                                        <Expander HorizontalAlignment="Stretch" Header="{lex:Loc UIresolution_NoteHeader}" Foreground="#FF100000">
+                                            <StackPanel Margin="24,8,24,16" Orientation="Vertical"
+                                                    TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                                                <!-- 选择一种分辨率后游戏界面就会一直是新的界面了，无需再重新应用。
+                                                     如果要切换其他分辨率，需要重新选择调整，不然有冲突，显示错位。
+                                                    3840x2160（4K）分辨率文字显示不全，推荐方案是选择1920x1080分辨率，使用全屏模式，或者自行调整程序的高DPI设置。
+                                                -->
+                                                <TextBlock TextWrapping="Wrap" FontSize="17" Height="Auto"
+		                                               Text="{lex:Loc UIresolution_Note}" />
+                                            </StackPanel>
+                                        </Expander>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                            </Grid>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <!-- =========================
+                             字体修改
+                     ========================= -->
+                    <!-- margin：右、上、左、下 -->
+                    <TabItem Grid.Row="0" BorderBrush="#FF5E81C4" Background="Red" Foreground="#c62828" Height="50" Margin="0,-20,0,5">
+                        <TabItem.Header>
+                            <TextBlock Text="{lex:Loc Tab_FontEdit_Header}" FontSize="18" Foreground="#FF7B3939" Margin="0" Height="20" FontFamily="Microsoft YaHei UI"/>
+                        </TabItem.Header>
+                        <!-- 
+                        垂直滚动条 
+                        如果Grid的内容超出了屏幕的高度，则会显示一个垂直滚动条 
+                        水平滚动条 HorizontalScrollBarVisibility="Auto"
+                        -->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <Grid Cursor="" Margin="0,0,0,0">
+                                <TextBlock x:Name="Tab_fontedit_Text1" Foreground="Black" 
+                                       Margin="26,15,102,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left"
+                                       FontWeight="Bold" Height="34" Width="390" FontSize="20" Text="{lex:Loc Tab_FontEdit_Title}"/>
+                                <!-- 此功能会更改游戏字体，替换更舒适的字体。 -->
+                                <TextBlock x:Name="Tab_fontedit_Text2" Foreground="Black" FontSize="18" HorizontalAlignment="Left" 
+                                       Margin="26,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="69" Width="402">
+                                        <Run Text="{lex:Loc Tab_FontEdit_Description}"/></TextBlock>
+                                <!--
+                                <TextBlock x:Name="Tab_fontedit_Text3" Foreground="Black" FontSize="18" HorizontalAlignment="Left" 
+                                       Margin="26,92,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="201">
+                                        <Run Language="zh-cn" Text="请选择你喜欢的字体"/></TextBlock>
+                                -->
+
+                                <!-- 推荐字体 -->
+                                <GroupBox  Margin="30,128,0,0" Header="{lex:Loc Group_RecommendedFonts}" FontSize="16"
+                                  Width="400" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                  materialDesign:ColorZoneAssist.Background="#FF8BA5B5"
+                                  materialDesign:ColorZoneAssist.Foreground="White"
+                                  materialDesign:ColorZoneAssist.Mode="Custom" 
+                                  Style="{StaticResource MaterialDesignGroupBox}" >
+                                </GroupBox>
+                                <!-- 寒蝉正楷体（推荐） -->
+                                <RadioButton Content="{lex:Loc Font_Chillkai}" x:Name="font_Chillkai" FontSize="17" Foreground="Black" Background="#c62828"  BorderBrush="#c62828"
+                                     HorizontalAlignment="Left" Margin="44,174,0,0" VerticalAlignment="Top" Width="250" Style="{StaticResource MaterialDesignRadioButton}"/>
+                                <!-- 霞鹜文楷 -->
+                                <RadioButton Content="{lex:Loc Font_Xiawu}" FontSize="17" x:Name="font_xiawu" Foreground="Black" Background="#c62828"  BorderBrush="#c62828"
+                                     HorizontalAlignment="Left" Margin="44,203,0,0" VerticalAlignment="Top" Width="250" Style="{StaticResource MaterialDesignRadioButton}"/>
+                                <!-- 华康唐风隶（默认字体） -->
+                                <RadioButton Content="{lex:Loc Font_Default}" FontSize="17" x:Name="font_huakang" Foreground="Black" Background="#c62828"  BorderBrush="#c62828"
+                                     HorizontalAlignment="Left" Margin="44,232,0,0" VerticalAlignment="Top" Width="300" Style="{StaticResource MaterialDesignRadioButton}"/>
+                                <!-- 应用按钮 -->
+                                <Button x:Name="Tab_fontedit_Button"  Content="{lex:Loc Button_Apply}"  FontSize="18" HorizontalAlignment="Left" Margin="44,271,0,0" 
+                                VerticalAlignment="Top" Height="36" Width="118" Click="Tab_fontedit_Button_Click" 
+                                Background="#FF5285D0" Foreground="White"  Cursor="Hand"              
+                                IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignFlatLightBgButton}"/>
+
+                                <!-- 自定义字体 -->
+                                <GroupBox  Margin="30,346,0,0" Header="{lex:Loc CustomFont}" FontSize="16"
+                                  Width="400" Height="150" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                  materialDesign:ColorZoneAssist.Background="#FF8BA5B5"
+                                  materialDesign:ColorZoneAssist.Foreground="White"
+                                  materialDesign:ColorZoneAssist.Mode="Custom"
+                                  Style="{StaticResource MaterialDesignGroupBox}" >
+                                </GroupBox>
+                                <!-- 从已安装的系统中选择 -->
+                                <Button x:Name="Buttonsystem" Content="{lex:Loc SystemInstallFont}" Margin="44,396,0,0" FontSize="17" VerticalAlignment="Top" Click="Buttonsystem_Click"
+                                 Height="35" BorderBrush="#FF90B3E6" Background="#FF5285D0" HorizontalAlignment="Left" Foreground="White"
+                                IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignFlatLightBgButton}" />
+                                <!-- 从外部文件中选择 -->
+                                <Button x:Name="Tab_fontedit_list" Content="{lex:Loc outsideFont}" FontSize="17" HorizontalAlignment="Left" Margin="44,443,0,0" 
+                                VerticalAlignment="Top" Height="36" Width="170" Click="Tab_fontedit_list_Click" Foreground="White" Background="#FF5285D0"   
+                                 HorizontalContentAlignment="Left"              
+                                IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignFlatLightBgButton}"/>
+                                <!-- 
+                                附加说明 
+                                如需调整文字内容高度只需在TextBlock调整Height数值
+                                如需要调整内容框高度，需调整Grid的Height值，就能扩展字体内容了。
+                                -->
+                                <materialDesign:Card Margin="26,511,21,21" Background="{x:Null}" Height="Auto">
+                                    <StackPanel>
+                                        <Expander HorizontalAlignment="Stretch" Header="{lex:Loc FontTips}" Foreground="#FF100000">
+                                            <StackPanel Margin="24,8,24,16" Orientation="Vertical"
+                                                    TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                                                <!-- 有些字体不受支持，推荐选择 .ttf 字体文件，如发现游戏内没有显示文字或显示不全，更换别的字体即可。 -->
+                                                <TextBlock TextWrapping="Wrap" FontSize="17" Height="Auto"
+		                                               Text="{lex:Loc Fontdescription}" />
+                                            </StackPanel>
+                                        </Expander>
+                                    </StackPanel>
+                                </materialDesign:Card>
+                            </Grid>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <!-- =========================
+                             调整消息对话框字号
+                     ========================= -->
+                    <TabItem Grid.Row="0" BorderBrush="#FF5E81C4" Background="Red" Foreground="#c62828" Height="50" Margin="0,-30,0,5">
+                        <TabItem.Header>
+                            <TextBlock Text="{lex:Loc Tab_Poposize_Header}" FontSize="18" Foreground="#FF7B3939" FontFamily="Microsoft YaHei UI"/>
+                        </TabItem.Header>
+                        <Grid Margin="0,0,0,-4" Height="Auto">
+                            <TextBlock x:Name="Tab_poposize_Text1" Foreground="Black" HorizontalAlignment="Left" Margin="30,31,0,0" 
+                                   TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Bold" Height="34" Width="390" FontSize="20" 
+                                   Text="{lex:Loc Tab_Poposize_Title}"/>
+                            <!-- 此功能会调整消息泡泡对话框字号大小。主要涉及到NPC对话框和选择框，剧情消息框，存读取游戏/返回界面/退出游戏提示框等。 -->
+                            <TextBlock x:Name="Tab_poposize_Text2" Foreground="Black" FontSize="18" HorizontalAlignment="Left" Margin="30,72,0,0" 
+                                   TextWrapping="Wrap" VerticalAlignment="Top" Height="113" Width="447"  Text="{lex:Loc Tab_Poposize_Description}"></TextBlock>
+
+                            <!-- 注意：此功能会和UI界面扩展功能冲突，应用前会先应用UI界面功能，再去调整消息对话框字号。 -->
+                            <TextBlock x:Name="Tab_poposize_Text4" Foreground="Black" FontSize="18" HorizontalAlignment="Left" 
+                                   Margin="30,393,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="119" Width="469" 
+                                   Text="{lex:Loc Tab_Poposize_Note}"/>
+                            <!-- 单选按钮 如需要已选中状态就输入：IsChecked="True" -->
+                            <!-- 小 (默认,18号) -->
+                            <RadioButton Content="{lex:Loc Size_Small}" x:Name="radio_Small" FontSize="20" Foreground="Black" Background="#c62828"  BorderBrush="#c62828"
+                                     HorizontalAlignment="Left" Margin="30,190,0,0" VerticalAlignment="Top" Width="206" Style="{StaticResource MaterialDesignRadioButton}" RenderTransformOrigin="0.5,0.5">
+                                <RadioButton.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform Angle="-0.269"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </RadioButton.RenderTransform>
+                            </RadioButton>
+                            <!-- 中 (推荐,28号) -->
+                            <RadioButton Content="{lex:Loc Size_Medium}" FontSize="20" x:Name="radio_in" Foreground="Black" Background="#c62828"  BorderBrush="#c62828"
+                                     HorizontalAlignment="Left" Margin="30,223,0,0" VerticalAlignment="Top" Width="206" Style="{StaticResource MaterialDesignRadioButton}"/>
+                            <!-- 大 (38号) -->
+                            <RadioButton Content="{lex:Loc Size_Large}" FontSize="20" x:Name="radio_large" Foreground="Black" Background="#c62828"  BorderBrush="#c62828"
+                            HorizontalAlignment="Left" Margin="30,254,0,0" VerticalAlignment="Top" Width="206" Style="{StaticResource MaterialDesignRadioButton}"/>
+                            <!-- 特大号 (48号) -->
+                            <RadioButton Content="{lex:Loc Size_ExtraLarge}" FontSize="20" x:Name="radio_Extralarge" Foreground="Black" Background="#c62828"  BorderBrush="#c62828"
+                            HorizontalAlignment="Left" Margin="30,287,0,0" VerticalAlignment="Top" Width="206" Style="{StaticResource MaterialDesignRadioButton}"/>
+                            <!-- 简体中文 -->
+                            <RadioButton x:Name="poposize_SC" Content="{lex:Loc Lang_Simplified}"  GroupName="raido"
+                                         Background="#c62828" BorderBrush="#c62828" Foreground="Black" 
+                                         BorderThickness="2,2,2,2" Height="30" Padding="2,2,2,2" FontSize="20" Width="230" 
+                                         Style="{StaticResource MaterialDesignRadioButton}" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                                         RenderTransformOrigin="0.5,0.5" Checked="poposize_SC_Checked" Margin="264,190,0,0">
+                            </RadioButton>
+                            <!-- 繁体中文 -->
+                            <RadioButton x:Name="poposize_TC" Content="{lex:Loc Lang_Traditional}" GroupName="raido"
+                                         Background="#c62828" BorderBrush="#c62828" Foreground="Black" 
+                                         BorderThickness="2,2,2,2" Height="34" Padding="2,2,2,2" FontSize="20" Width="230" 
+                                         Style="{StaticResource MaterialDesignRadioButton}" HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" RenderTransformOrigin="0.849,0.849"
+                                         Checked="poposize_TC_Checked" Margin="264,223,0,0"/>
+                            <!-- 应用按钮 -->
+                            <Button x:Name="Tab_poposize_Button"  Content="{lex:Loc Button_Apply}"  FontSize="18" HorizontalAlignment="Left" Margin="30,339,0,0" 
+                                VerticalAlignment="Top" Height="40" Width="118" Click="Tab_poposize_Button_Click" BorderBrush="#FF90B3E6" Background="#FF5285D0"  Foreground="White" 
+                                IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignFlatLightBgButton}"/>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- =========================
+                        身体比例调整和肤色增白 
+                     ========================= -->
+                    <!-- 
+                    若需要换行，则添加：TextWrapping="Wrap" 
+                    后面换行代码是<Run Text="">
+                    <Run Text="身体比例调整"/><LineBreak/><Run Text="  和肤色增白"/></TextBlock>
+                    -->
+                    <TabItem Grid.Row="0" BorderBrush="#FF5E81C4" Background="Red" Foreground="#c62828" Height="70" Margin="0,-20,0,5">
+                        <TabItem.Header>
+                            <!-- 身体比例调整和肤色增白 标题 -->
+                            <TextBlock Text="{lex:Loc Tab_Adjustment_Header}" FontSize="18" Foreground="#FF7B3939"  TextWrapping="Wrap" FontFamily="Microsoft YaHei UI" />
+                        </TabItem.Header>
+                        <!-- 身体比例调整和肤色增白 文本-->
+                        <Grid Margin="0,0,0,-379" Width="515" Height="Auto" HorizontalAlignment="Left">
+                            <TextBlock Margin="30,19,95,777" Text="{lex:Loc Tab_Adjustment_Title}" Foreground="Black" Width="390" FontSize="20" FontWeight="Bold"/>
+                            <!-- 此功能会调整四主角的模型身材比例，并且给肤色增白。
+                                仙五前传DLC《梦华幻斗》也有四主角出场，也可以在下面下拉表选择 -->
+                            <TextBlock x:Name="Tab_adjustment_Text2" Foreground="Black" 
+                                   FontSize="18" Margin="30,59,29,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="119">
+                                    <Run Text="{lex:Loc Tab_Adjustment_Description}"/>
+                            </TextBlock>
+                            <!-- 请选择下面选项然后点击应用按钮 -->
+                            <TextBlock x:Name="Tab_adjustment_Text3" Foreground="Black" 
+                                   FontSize="18" Margin="30,182,67,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" 
+                                   Text="{lex:Loc Prompt_PleaseSelectThenApply}"/>
+                            <!-- 应用按钮 -->
+                            <Button x:Name="Tab_adjustment_Button" Content="{lex:Loc Button_Apply}"
+                                FontSize="18" HorizontalAlignment="Left" Margin="30,308,0,0" 
+                                VerticalAlignment="Top" Height="40" Width="120" Click="Tab_adjustment_Button_Click" 
+                                Background="#FF5285D0" Foreground="White"  Cursor="Hand"              
+                                  IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                  RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                  Style="{StaticResource MaterialDesignFlatLightBgButton}">
+                            </Button>
+                            <!-- 恢复默认按钮 -->
+                            <Button x:Name="Tab_adjustment_Button2" Content="{lex:Loc Button_RestoreDefault}"
+                                FontSize="18" HorizontalAlignment="Left" Margin="179,308,0,0" 
+                                VerticalAlignment="Top" Height="40" Width="173" Click="Tab_adjustment_Button2_Click" 
+                                   Background="#FFD7DBE0" Foreground="Black"   
+                                    IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                    Style="{StaticResource MaterialDesignOutlinedButton}">
+                            </Button>
+                            <!-- 请选择游戏路径 选项 -->
+                            <!-- Padding：左,上,右,下 -->
+                            <ComboBox HorizontalAlignment="Left" Margin="30,220,0,0" Padding="3,10,5,5"
+                             VerticalAlignment="Top" Width="179" Height="42" FontSize="16" Cursor=""
+                             Style="{StaticResource MaterialDesignOutlinedComboBox}" 
+                             Background="White" Foreground="Black" BorderBrush="#c62828"
+                             x:Name="bodypathlist" SelectionChanged="bodylist_SelectionChanged"
+                             materialDesign:HintAssist.Hint="{lex:Loc Hint_SelectGamePath}"
+                             materialDesign:HintAssist.Foreground="#c62828" RenderTransformOrigin="0.5,0.5">
+                                <!-- 仙剑奇侠传五 -->
+                                <ComboBoxItem x:Name="bodylist_Pal5" Content="{lex:Loc Label_Pal5}"/>
+                                <!-- 仙剑奇侠传五前传 -->
+                                <ComboBoxItem x:Name="bodylist_Pal5Q" Content="{lex:Loc Label_Pal5Q}"/>
+                            </ComboBox>
+                            <!-- 简体中文 -->
+                            <!-- 扩大单选的圈圈
+                        <Viewbox Margin="208,185,184,768" RenderTransformOrigin="0.5,0.5">
+                            <Viewbox.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform AngleY="0.138"/>
+                                    <RotateTransform/>
+                                    <TranslateTransform Y="0.248"/>
+                                </TransformGroup>
+                            </Viewbox.RenderTransform>
+                        -->
+                            <RadioButton x:Name="adjustment_SC" Content="{lex:Loc Lang_Simplified}"  GroupName="raido"
+                                         Background="#c62828" BorderBrush="#c62828" Foreground="Black" 
+                                         BorderThickness="2,2,2,2" Height="28" Padding="2,2,2,2" FontSize="18" Width="232" 
+                                         Style="{StaticResource MaterialDesignRadioButton}" 
+                                         HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" 
+                                         RenderTransformOrigin="0.5,0.5" 
+                                         Checked="adjustment_SC_Checked" Margin="226,214,0,0">
+                            </RadioButton>
+                            <!-- 繁体中文 -->
+                            <RadioButton x:Name="adjustment_TC" Content="{lex:Loc Lang_Traditional}" GroupName="raido"
+                                         Background="#c62828" BorderBrush="#c62828" Foreground="Black" 
+                                         BorderThickness="2,2,2,2" Height="26" Padding="2,2,2,2" FontSize="18" Width="222" 
+                                         Style="{StaticResource MaterialDesignRadioButton}" HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" RenderTransformOrigin="0.849,0.849"
+                                         Checked="adjustment_TC_Checked" Margin="226,246,0,0"/>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- =========================
+                             隐藏战斗UI界面
+                     ========================= -->
+                    <TabItem Grid.Row="0" BorderBrush="#FF5E81C4" Background="Red" Foreground="#c62828" Height="50"  Margin="0,-10,0,5">
+                        <TabItem.Header>
+                            <TextBlock Text="{lex:Loc HideBattleUI_Header}" FontSize="18" Foreground="#FF7B3939" FontFamily="Microsoft YaHei UI"/>
+                        </TabItem.Header>
+                        <Grid Height="Auto">
+                            <TextBlock x:Name="Tab_BattleWinUIHIde_Text1" Foreground="Black" HorizontalAlignment="Left" 
+                                   Margin="30,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                   Width="390"  FontSize="20" FontWeight="Bold">
+                                    <Run Language="zh-cn" Text="{lex:Loc HideBattleUI_Title}"/></TextBlock>
+                            <TextBlock x:Name="Tab_BattleWinUIHIde_Text2" Foreground="Black" HorizontalAlignment="Left" 
+                                   Margin="30,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                   Height="113" Width="466" FontSize="18" RenderTransformOrigin="0.5,0.5">
+                                <TextBlock.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform AngleY="0.095"/>
+                                        <RotateTransform/>
+                                        <TranslateTransform Y="0.332"/>
+                                    </TransformGroup>
+                                    <!-- 
+                                    用于隐藏战斗UI界面相关，方便录像。
+                                    战斗胜利界面隐藏，如获得经验、获取物品等；
+                                    状态名称隐藏，伤害数字隐藏。
+                                    -->
+                                </TextBlock.RenderTransform><Run Text="{lex:Loc HideBattleUI_description}"/>
+                            </TextBlock>
+                            <!-- 注意：运行游戏可能会闪退，尝试重新启动游戏即可。 -->
+                            <TextBlock x:Name="Tab_BattleWinUIHIde_Text4" Foreground="Black" FontSize="18" HorizontalAlignment="Left" 
+                                   Margin="30,262,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="65" Width="452" 
+                                   Text="{lex:Loc HideBattleUI_NoteTip}"/>
+                            <!-- 应用按钮 -->
+                            <Button x:Name="Tab_BattleWinUIHIde_Button"  Content="{lex:Loc Button_Apply}"  FontSize="18" HorizontalAlignment="Left" Margin="30,192,0,0" 
+                                VerticalAlignment="Top" Height="40" Width="118" Click="Tab_BattleWinUIHIde_Button_Click" 
+                                BorderBrush="#FF90B3E6" Background="#FF5285D0"   Foreground="White"
+                                IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignFlatLightBgButton}"/>
+                            <!-- 恢复默认按钮 -->
+                            <Button x:Name="Tab_BattleWinUIHIde_Button2" Content="{lex:Loc Button_RestoreDefault}"
+                                FontSize="18" HorizontalAlignment="Left" Margin="178,192,0,0" 
+                                VerticalAlignment="Top" Height="40" Width="180" Click="Tab_BattleWinUIHIde_Button2_Click" 
+                                  BorderBrush="#FF94A9C8" Background="#FFD7DBE0" Foreground="Black" Cursor="Hand"
+                                  IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                  RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                  Style="{StaticResource MaterialDesignOutlinedButton}" >
+                            </Button>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- =========================
+                             恢复初始设置
+                     ========================= -->
+                    <TabItem Grid.Row="0" BorderBrush="#FF5E81C4" Background="Red" Foreground="#c62828" Height="50" Margin="0,-20,0,5">
+                        <TabItem.Header>
+                            <TextBlock Text="{lex:Loc RestoreDefault_Header}" FontSize="18" Foreground="#FF7B3939" FontFamily="Microsoft YaHei UI"/>
+                        </TabItem.Header>
+                        <Grid Height="Auto">
+                            <TextBlock x:Name="Tab_default_Text1" Foreground="Black" HorizontalAlignment="Left" 
+                             Margin="30,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                Width="390" FontSize="20" FontWeight="Bold">
+                                <Run Language="zh-cn" Text="{lex:Loc RestoreDefault_Title}"/>
+                            </TextBlock>
+                            <TextBlock x:Name="Tab_default_Text2" Foreground="Black" HorizontalAlignment="Left" 
+                            Margin="30,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                            Height="69" Width="461" FontSize="18" RenderTransformOrigin="0.5,0.5">
+                                <TextBlock.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform AngleY="0.095"/>
+                                        <RotateTransform/>
+                                        <TranslateTransform Y="0.332"/>
+                                    </TransformGroup>
+                                </TextBlock.RenderTransform>
+                            
+                                <!-- 
+                                将游戏配置全部恢复到初始设置。
+                                若是前面功能应用失败可以尝试恢复初始设置。
+                                -->
+                                <Run Text="{lex:Loc RestoreDefault_description}"/><LineBreak/></TextBlock>
+                            <!-- 请选择下面选项然后点击应用按钮 -->
+                            <TextBlock x:Name="Tab_default_Text3" Foreground="Black" HorizontalAlignment="Left" 
+                                   Margin="30,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                   Height="32" Width="437" FontSize="18" Text="{lex:Loc Prompt_PleaseSelectThenApply}"/>
+                            <!-- 简体中文 -->
+                            <RadioButton x:Name="Default_SC" Content="{lex:Loc Lang_Simplified}"  GroupName="raido"
+                                         Background="#c62828" BorderBrush="#c62828" Foreground="Black" 
+                                         BorderThickness="2,2,2,2" Height="33" Padding="2,2,2,2" FontSize="22" Width="129" 
+                                         Style="{StaticResource MaterialDesignRadioButton}" HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" RenderTransformOrigin="0.178,0.811" Checked="Default_SC_Checked" Margin="30,213,0,0"/>
+                            <!-- 繁体中文 -->
+                            <RadioButton x:Name="Default_TC" Content="{lex:Loc Lang_Traditional}" GroupName="raido"
+                                         Background="#c62828" BorderBrush="#c62828" Foreground="Black" 
+                                         BorderThickness="2,2,2,2" Height="33" Padding="2,2,2,2" FontSize="22" Width="135" 
+                                         Style="{StaticResource MaterialDesignRadioButton}" HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" RenderTransformOrigin="0.849,0.849"
+                                         Checked="Default_TC_Checked" Margin="176,213,0,0"/>
+                            <!-- 应用按钮 -->
+                            <Button x:Name="Tab_default_Button"  Content="{lex:Loc Button_Apply}"  FontSize="18" HorizontalAlignment="Left" Margin="30,276,0,0" 
+                                VerticalAlignment="Top" Height="40" Width="118" Click="Tab_default_Button_Click" 
+                                BorderBrush="#FF90B3E6" Background="#FF5285D0"  Foreground="White" 
+                                IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                Style="{StaticResource MaterialDesignFlatLightBgButton}"/>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- =========================
+                             关于/反馈
+                     ========================= -->
+                    <TabItem Grid.Row="0" BorderBrush="#FF5E81C4" Background="Red" Foreground="#c62828" Height="50" Margin="0,-25,0,5">
+                        <TabItem.Header>
+                            <TextBlock Text="{lex:Loc TabAbout_Header}" FontSize="18" Foreground="#FF7B3939" FontFamily="Microsoft YaHei UI"/>
+                        </TabItem.Header>
+                        <Grid Height="Auto" >
+                            <!-- 关于/反馈 -->
+                            <TextBlock x:Name="aboutme_Text1" Foreground="Black" HorizontalAlignment="Left" 
+                               Margin="30,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="390"  
+                               FontSize="20" FontWeight="Bold"><Run Language="zh-cn" Text="{lex:Loc TabAbout_Title}"/></TextBlock>
+                            <!-- 内容 -->
+                            <TextBlock x:Name="aboutme_Text2" Foreground="Black" HorizontalAlignment="Left" 
+                                   Margin="30,72,0,0" VerticalAlignment="Top" Height="Auto"  
+                                   FontSize="17"  TextWrapping="Wrap" Width="468">
+                                <!-- 本程序是我刚初学C#做的，还有些做的不够好的地方，如果有遇到问题可以到微博上给我反馈，如有条件也可以到Github或Gitee帮我改下代码……鞠躬！ -->
+                                <Run Language="zh-cn" Text="{lex:Loc TabAbout_description}"/><LineBreak/></TextBlock>
+                            <!-- github -->
+                            <TextBlock x:Name="aboutme_Text3" Foreground="Black" HorizontalAlignment="Left" 
+                                   Margin="30,173,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                   Height="32" Width="82" FontSize="18"><Run Language="zh-cn" Text="Gihtub："/></TextBlock>
+                            <Label FontSize="17" HorizontalAlignment="Left"  Padding="0" Width="63" Margin="108,174,0,338">
+                                <Hyperlink Name="github" NavigateUri="https://github.com/sarakale/Pal5_BeautifyRepair_Mod" Click="github_Click"
+                                    Foreground="#FF4D8CE0" MouseMove="github_MouseMove" MouseLeave="github_MouseLeave">
+                                    <Run Text="{lex:Loc Key=Link_Text}"/>
+                                </Hyperlink>
+                            </Label>
+                            <!-- gitee -->
+                            <TextBlock x:Name="aboutme_Text4" Foreground="Black" HorizontalAlignment="Left" 
+                                   Margin="30,203,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                   Height="32" Width="82" FontSize="18"><Run Language="zh-cn" Text="Gitee："/></TextBlock>
+                            <Label FontSize="17" HorizontalAlignment="Left" Margin="96,204,0,315" Padding="0" Width="60">
+                                <Hyperlink Name="gitee" NavigateUri="https://gitee.com/sarakale/Pal5_BeautifyRepair_Mod" Click="gitee_Click"
+                                Foreground="#FF4D8CE0" MouseMove="gitee_MouseMove" MouseLeave="gitee_MouseLeave">
+                                    <Run Text="{lex:Loc Key=Link_Text}"/>
+                                </Hyperlink>
+                            </Label>
+                            <!-- 作者 -->
+                            <TextBlock x:Name="aboutme_Text5" Foreground="#FF968484" HorizontalAlignment="Left" 
+                                   Margin="30,250,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                   Height="32" Width="195" FontSize="14"><Run Language="zh-cn" Text="Author：SaraKale"/></TextBlock>
+
+                            <!-- 
+                                绘制直线
+                                X1 Y1 定义起点和终点
+                                Stroke 颜色
+                                StrokeThickness 线的粗细
+                                -->
+                            <Line X1="10" Y1="10" X2="450" Y2="10" Stroke="Black" StrokeThickness="0.5" Margin="21,274,21,266"/>
+                            <!-- 借物MOD补丁/工具： -->
+                            <TextBlock HorizontalAlignment="Left" Margin="30,302,0,0" TextWrapping="Wrap" 
+                                   Text="{lex:Loc BorrowToolsText}" VerticalAlignment="Top" Foreground="Black" FontSize="16"/>
+                            <!-- 仙剑五怀旧版Mod1.06c  by:情姐姐 -->
+                            <Label FontSize="16" HorizontalAlignment="Left" Margin="28,329,0,185" Padding="0" Width="177">
+                                <Hyperlink Name="huaijiuMod" NavigateUri="https://bbs.3dmgame.com/thread-2854641-1-1.html" Click="huaijiuMod_Click"
+                                    Foreground="#FF4D8CE0" MouseMove="huaijiuMod_MouseMove" MouseLeave="huaijiuMod_MouseLeave">仙剑五怀旧版Mod1.06c
+                                </Hyperlink>
+                            </Label>
+                            <TextBlock Margin="225,327,-225,0" TextWrapping="Wrap" 
+                                   Text="by: 情姐姐" VerticalAlignment="Top" Foreground="Black" FontSize="16"/>
+                            <!-- uvlist修改器 v2.0 by:百度贴吧—风靡义磊 -->
+                            <Label FontSize="16" HorizontalAlignment="Left" Margin="29,358,0,161" Padding="0" Width="141">
+                                <Hyperlink Name="uvlistTool" NavigateUri="https://tieba.baidu.com/p/3680752738?red_tag=3514355147" Click="uvlistTool_Click"
+                                    Foreground="#FF4D8CE0" MouseMove="uvlistTool_MouseMove" MouseLeave="uvlistTool_MouseLeave">uvlist修改器 v2.0
+                                </Hyperlink>
+                            </Label>
+                            <TextBlock Margin="175,357,-175,0" TextWrapping="Wrap" 
+                                   Text="by: 百度贴吧—风靡义磊" VerticalAlignment="Top" Foreground="Black" FontSize="16"/>
+                            <!-- 感谢前人的贡献我才能在基础上整合，在此感谢！ -->
+                            <TextBlock HorizontalAlignment="Left" Margin="30,393,0,0" TextWrapping="Wrap" 
+                                  Text="{lex:Loc TabAbout_borrowText}" VerticalAlignment="Top" Foreground="Black" FontSize="15"/>
+                            <!-- 特别感谢 -->
+                            <Line X1="10" Y1="10" X2="450" Y2="10" Stroke="Black" StrokeThickness="0.5" Margin="21,421,21,119" RenderTransformOrigin="0.5,0.5">
+                                <Line.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform AngleX="-0.52"/>
+                                        <RotateTransform/>
+                                        <TranslateTransform X="0.158"/>
+                                    </TransformGroup>
+                                </Line.RenderTransform>
+                            </Line>
+                            <!-- 
+                            AI辅助：ChatGPT
+                            感谢测试：清风涧碎花弄影、水月澄明
+                            -->
+                            <TextBlock HorizontalAlignment="Left" Margin="30,448,0,0" TextWrapping="Wrap" 
+                                   Text="{lex:Loc TabAbout_tester}" VerticalAlignment="Top" Foreground="Black" FontSize="15"/>
+                        </Grid>
+                    </TabItem>
+
+                    <!-- =========================
+                             语音修复
+                     ========================= -->
+                    <!-- 没啥用，没修复完……
+                    <TabItem Grid.Row="1" BorderBrush="#FF5E81C4" Background="Red" Foreground="#c62828">
+                    <TabItem.Header>
+                        <TextBlock Text="语音修复" FontSize="18" Foreground="#FF7B3939"/>
+                    </TabItem.Header>
+                    <Grid>
+                        <TextBlock x:Name="Tab_voice_Text1" Foreground="Black" HorizontalAlignment="Left" Margin="30,31,0,0" 
+                                   TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Width="150" FontSize="20" FontWeight="Bold">
+                                    <Run Language="zh-cn" Text="语音修复"/></TextBlock>
+                        <TextBlock x:Name="Tab_voice_Text2" Foreground="Black" HorizontalAlignment="Center" Margin="0,79,0,0" 
+                                   TextWrapping="Wrap" VerticalAlignment="Top" Height="108" Width="458" FontSize="18" 
+                                   Text="修复大量角色语音爆麦，平衡语音音量，部分角色语音重复、颠倒问题等。"/>
+                        <TextBlock x:Name="Tab_voice_Text3" Foreground="Black" HorizontalAlignment="Left" Margin="30,144,0,0" 
+                                   TextWrapping="Wrap" VerticalAlignment="Top" Height="45" Width="419" FontSize="18">
+                                    <Run Text="请点击下面应用按钮"/><LineBreak/>
+                                    <Run Language="zh-cn" Text="语音修复文件较多，耗时较长，请耐心等待。"/>
+                        </TextBlock>
+                        <TextBlock x:Name="Tab_voice_Text4" Foreground="#FF8A7E7E" HorizontalAlignment="Left" Margin="30,207,0,0" 
+                                   TextWrapping="Wrap" VerticalAlignment="Top" Height="89" Width="471" FontSize="16">
+                                    <Run Text="*注意仅适用于大陆版普通话配音，台版玩家请斟酌选择。" Foreground="#FFDB3333"/><LineBreak/>
+                                    <Run Language="zh-cn" Text="如果需要替换大陆版配音，可以到                            下载替换。" Foreground="#FF585858"/>
+                        </TextBlock>
+                        <Label FontSize="16" HorizontalAlignment="Left" Margin="272,224,0,296" Width="166">
+                            <Hyperlink Name="voicelink" NavigateUri="http://pal5.roogames.com/second_page/download/yuyin.html" Click="voicelink_Click"
+                                    Foreground="#FF4D8CE0" MouseMove="voicelink_MouseMove" MouseLeave="voicelink_MouseLeave">仙剑5官网语音包
+                            </Hyperlink>
+                        </Label>
+                        -->
+                    <!-- 应用按钮 
+                            <Button x:Name="Tab_voice_Button"  Content="{lex:Loc Button_Apply}"  FontSize="18" HorizontalAlignment="Left" Margin="30,273,0,0" 
+                                    VerticalAlignment="Top" Height="40" Width="118" Click="Tab_voice_Button_Click" 
+                                    BorderBrush="#FF90B3E6" Background="#FF4181E0"   
+                                    IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                    RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                    Style="{StaticResource MaterialDesignRaisedSecondaryButton}" />
+                        </Grid>
+                    </TabItem> -->
+
+
+
+                    <!-- =========================
+                             手柄按键映射
+                     ========================= -->
+                    <!--
+                    <TabItem Grid.Row="1" BorderBrush="#FF5E81C4" Background="Red" Foreground="#c62828">
+                    <TabItem.Header>
+                        <TextBlock Text="手柄按键映射" FontSize="18" Foreground="#FF7B3939"/>
+                    </TabItem.Header>
+                    <Grid Background="White">
+                        <TextBlock x:Name="Tab_handle_Text1" Foreground="Black" HorizontalAlignment="Left" Margin="30,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Width="390" FontSize="20" FontWeight="Bold"><Run Language="zh-cn" Text="手柄按键映射"/></TextBlock>
+                        <TextBlock x:Name="Tab_handle_Text2" Foreground="Black" HorizontalAlignment="Left" Margin="30,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="69" Width="390" FontSize="18"><Run Text="此功能会将键鼠按键映射到手柄，方便手柄玩家游玩。支持Xbox以及通用手柄。"/><LineBreak/><Run Text="也可以"/><Run Language="zh-cn" Text="导入steam上我分享的布局。"/></TextBlock>
+                        <TextBlock x:Name="Tab_handle_Text3" Foreground="Black" HorizontalAlignment="Left" Margin="30,191,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="32" Width="201" FontSize="18"><Run Language="zh-cn" Text="请点击下面应用按钮"/></TextBlock>
+                        <Button x:Name="Tab_handle_Button"  Content="{lex:Loc Button_Apply}"  FontSize="18" HorizontalAlignment="Left" Margin="30,228,0,0" 
+                                VerticalAlignment="Top" Height="40" Width="118" Click="Tab_handle_Button_Click"  BorderBrush="#FF90B3E6" Background="#FF4181E0"   
+                                  IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                  RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                  Style="{StaticResource MaterialDesignRaisedSecondaryButton}" />
+                        </Grid>
+                    </TabItem>
+                    -->
+
+                    <!-- =========================
+                             滤镜截图插件
+                     ========================= -->
+                    <!-- 
+                    <TabItem Grid.Row="1" BorderBrush="#FF5E81C4" Background="Red" Foreground="#c62828" >
+                    <TabItem.Header>
+                        <TextBlock Text="滤镜截图插件" FontSize="18" Foreground="#FF7B3939"/>
+                    </TabItem.Header>
+                    <Grid Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="14*"/>
+                            <RowDefinition Height="11*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock x:Name="Tab_Filter_Text1" Foreground="Black" HorizontalAlignment="Left" 
+                                   Margin="30,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                   Height="34" Width="390" FontSize="20" FontWeight="Bold">
+                                   <Run Language="zh-cn" Text="滤镜截图插件"/></TextBlock>
+                        <TextBlock x:Name="Tab_Filter_Text2" Foreground="Black" HorizontalAlignment="Left" 
+                                   Margin="30,79,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                   Height="134" Width="438" FontSize="18">
+                                   <Run Text="此功能可以开启增强画质滤镜Reshade插件，可切换调整预设，用来拍漂亮的截图，如需要进阶调整请在B站搜索相关教程。Reshade中文汉化用                  作者编写的汉化包，感谢大佬编写了汉化包！"/><LineBreak/></TextBlock>
+                        <Label FontSize="17" HorizontalAlignment="Left" Margin="321,122,0,143" Width="123">
+                            <Hyperlink Name="reshadeCN" NavigateUri="https://gitee.com/jiangyi0923/re-shade4.9.1_cn/releases" Click="reshadeCN_Click"
+                                    Foreground="#FF4D8CE0" MouseMove="reshadeCN_MouseMove" MouseLeave="reshadeCN_MouseLeave">印度神油君
+                            </Hyperlink>
+                        </Label>
+                        <TextBlock x:Name="Tab_Filter_Text3" Foreground="Black" HorizontalAlignment="Left" 
+                                   Margin="30,231,0,0" TextWrapping="Wrap" VerticalAlignment="Top" 
+                                   Height="32" Width="201" FontSize="18"><Run Language="zh-cn" Text="请点击下面应用按钮"/></TextBlock>
+                        
+                        <Button x:Name="Tab_Filter_Button"  Content="{lex:Loc Button_Apply}"  FontSize="18" HorizontalAlignment="Left" Margin="30,268,0,0" 
+                                VerticalAlignment="Top" Height="40" Width="118" Click="Tab_Filter_Button_Click"  BorderBrush="#FF90B3E6" Background="#FF4181E0"   
+                                  IsEnabled="{Binding DataContext.ControlsEnabled, 
+                                  RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                                  Style="{StaticResource MaterialDesignRaisedSecondaryButton}" />
+                        </Grid>
+                    </TabItem> -->
+
+                </TabControl>
+            </materialDesign:Card>
+
+        </Grid>
+
+        <!-- End -->
+
+    </ScrollViewer>
+</Window>

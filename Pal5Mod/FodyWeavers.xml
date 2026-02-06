@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Weavers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="FodyWeavers.xsd">
+  <Costura>
+    <!-- 核心：禁用XML文档文件处理，直接跳过所有.xml文件的扫描 -->
+    <DisableXmlDocProcessing>true</DisableXmlDocProcessing>
+    
+    <!-- 明确排除所有System/Microsoft开头的系统库，避免Costura处理 
+    <ExcludeAssemblies>
+      System
+      Microsoft
+      NETStandard
+    </ExcludeAssemblies>
+		-->
+    <!-- 只明确包含需要打包的第三方库（精准控制，避免误处理） -->
+    <IncludeAssemblies>
+      MaterialDesignColors
+      MaterialDesignThemes
+      Microsoft.Xaml.Behaviors.Wpf
+    </IncludeAssemblies>
+
+    <!-- 可选：禁用压缩（避免部分系统库兼容问题） -->
+    <CompressAssemblies>false</CompressAssemblies>
+  </Costura>
+</Weavers>
